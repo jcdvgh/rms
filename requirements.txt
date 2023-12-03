@@ -6,4 +6,4 @@ matplotlib
 wordcloud
 python-dateutil
 streamlit
-
+nltk.download
