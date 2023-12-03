@@ -20,3 +20,4 @@ pip install matplotlib
 pip install wordcloud
 pip install python-dateutil
 pip install streamlit
+/home/adminuser/venv/bin/python -m pip install --upgrade pip
