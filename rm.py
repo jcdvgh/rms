@@ -1,14 +1,10 @@
 import streamlit as st
-from nltk.sentiment import SentimentIntensityAnalyzer
 import pandas as pd
 import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
 import matplotlib.dates as mdates
-from matplotlib.backends.backend_pdf import PdfPages
-from wordcloud import WordCloud
-from dateutil.relativedelta import relativedelta
 
 # Download the NLTK VADER lexicon for sentiment analysis
 nltk.download('vader_lexicon')
