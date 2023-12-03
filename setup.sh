@@ -11,6 +11,7 @@ env\Scripts\activate    # For Windows
 pip install -r requirements.txt
 pip install --upgrade streamlit
 -m pip install --upgrade pip
+pip install streamlit
 pip install requests
 pip install bs4
 pip install BeautifulSoup
