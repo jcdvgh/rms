@@ -1,8 +1,10 @@
 import nltk
 
-# Download the NLTK VADER lexicon for sentiment analysis
-nltk.download('vader_lexicon')
-
+# Check if NLTK data is downloaded, if not, download it
+try:
+    nltk.data.find('vader_lexicon')
+except LookupError:
+    nltk.download('vader_lexicon')
 # Streamlit app title
 st.title('Sentiment Analysis and Visualization')
 
