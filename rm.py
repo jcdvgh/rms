@@ -4,7 +4,6 @@ import nltk
 import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
-import matplotlib.gridspec as gridspec
 import matplotlib.dates as mdates
 from dateutil.relativedelta import relativedelta
 
