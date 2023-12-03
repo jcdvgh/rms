@@ -1,5 +1,5 @@
 beautifulsoup4
-nltk
+nltk==3.8.1
 streamlit
 requests
 bs4
