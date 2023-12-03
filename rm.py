@@ -1,15 +1,3 @@
-
-
-# Check if NLTK data is downloaded, if not, download it
-try:
-    nltk.data.find('vader_lexicon')
-except LookupError:
-    nltk.download('vader_lexicon')
-
-# Rest of your code...
-
-
-
 # Check if NLTK data is downloaded, if not, download it
 try:
     nltk.data.find('vader_lexicon')
