@@ -18,9 +18,12 @@ except LookupError:
 # Streamlit app title
 st.title('Sentiment Analysis and Visualization')
 
-data_path = st.file_uploader("Upload CSV file", type=["csv"])
-if data_path:
-    df = pd.read_csv(data_path)
+# File upload
+uploaded_file = st.file_uploader("Choose a CSV file", type="csv")
+
+# Load data if a file is uploaded
+if uploaded_file is not None:
+    df = pd.read_csv(uploaded_file)
 
     # Create a PDF file to save the output
     pdf_path = '/output.pdf'
