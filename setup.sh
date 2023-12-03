@@ -22,3 +22,4 @@ pip install python-dateutil
 pip install streamlit
 /home/adminuser/venv/bin/python -m pip install --upgrade pip
 py -m pip install --upgrade nltk
+pip install -r requirements.txt
