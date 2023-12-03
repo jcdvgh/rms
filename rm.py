@@ -1,9 +1,6 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-import matplotlib.gridspec as gridspec
-import matplotlib.dates as mdates
-from matplotlib.backends.backend_pdf import PdfPages
 from wordcloud import WordCloud
 from dateutil.relativedelta import relativedelta
 
