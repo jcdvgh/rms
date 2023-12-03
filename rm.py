@@ -76,6 +76,7 @@ def render_charts(df):
 
    # --- Chart 3: Review Length Analysis ---
     st.subheader("Review Length Analysis")
+    pd.set_option('mode.use_inf_as_null', True)  # Set the pandas option directly
     fig3, ax3 = plt.subplots(figsize=(12, 8))
     sns.histplot(df['review_length'], bins=20, color='darkblue', kde=False, ax=ax3)
     ax3.set_xlabel('Review Length', fontsize='large')
@@ -94,7 +95,7 @@ def render_charts(df):
     st.pyplot(fig4)
 
     # --- Chart 5: Feedback Analysis - Distribution of Feedback Categories ---
-    st.subheader("Distribution of Feedback Categories")
+    st.subheader("Feedback Analysis - Distribution of Feedback Categories")
     fig5, ax5 = plt.subplots(figsize=(12, 8))
     sns.countplot(x='feedback_category', data=df, palette='viridis', ax=ax5)
     ax5.set_xlabel('Feedback Category', fontsize='large')
@@ -105,8 +106,7 @@ def render_charts(df):
 
     # --- Chart 6: Sentiment Trends based on Time Periods ---
     st.subheader("Sentiment Trends based on Time Periods")
-    df['converted_date'] = df['date'].apply(convert_relative_time_to_date)
-    df = df.sort_values(by='converted_date')
+    pd.set_option('mode.use_inf_as_null', True)  # Set the pandas option directly
     fig6, ax6 = plt.subplots(figsize=(12, 8))
     sns.lineplot(x='converted_date', y='compound_sentiment', data=df, ax=ax6)
     ax6.xaxis.set_major_locator(mdates.MonthLocator())
@@ -114,20 +114,22 @@ def render_charts(df):
     plt.xticks(rotation=45, ha='right')
     ax6.set_xlabel('Date', fontsize='large')
     ax6.set_ylabel('Average Compound Sentiment', fontsize='large')
-    ax6.set_title('Rating Trends based on Date', fontsize='x-large')
+    ax6.set_title('Sentiment Trends based on Time Periods', fontsize='x-large')
     st.pyplot(fig6)
 
     # --- Chart 7: Feedback Analysis - Sentiment per Feedback Category ---
-    st.subheader("Sentiment Analysis per Feedback Category")
+    st.subheader("Feedback Analysis - Sentiment per Feedback Category")
     fig7, (ax_chart, ax_text) = plt.subplots(nrows=2, figsize=(12, 10), gridspec_kw={'height_ratios': [3, 1]})
     sns.barplot(x='review_text', y='compound_sentiment', data=df, ax=ax_chart, palette='viridis')
     ax_chart.set_xlabel('Feedback Category')
     ax_chart.set_ylabel('Average Compound Sentiment')
     ax_chart.set_title('Sentiment Analysis for Feedback Categories')
     ax_chart.tick_params(axis='x', labelrotation=45)
-    text_to_display = df['review_text'].iloc[0]  # Displaying first text for analysis
+    text_to_display = df['review_text'].iloc[0]
     ax_text.text(0.5, 0.5, text_to_display, ha='center', va='center', fontsize=12, wrap=True)
     ax_text.axis('off')
+    chart_filename = 'feedback_analysis_chart.png'
+    plt.savefig(chart_filename)
     st.pyplot(fig7)
 
 def main():
@@ -138,6 +140,12 @@ def main():
         df = pd.read_csv(uploaded_file)
         df = perform_sentiment_analysis(df)
         render_charts(df)
+
+   # Close the PDF file
+    pdf_pages.close()
+
+    # Display the PDF path
+    st.write(f'Output saved to: {pdf_path}')
 
 if __name__ == "__main__":
     main()
