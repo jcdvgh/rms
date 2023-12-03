@@ -74,15 +74,15 @@ def render_charts(df):
     ax2.set_title('Average Sentiment Per Product OR Service', fontsize='x-large')
     st.pyplot(fig2)
 
-   # --- Chart 3: Review Length Analysis ---
+  # --- Chart 3: Review Length Analysis ---
     st.subheader("Review Length Analysis")
-    with pd.option_context('mode.use_inf_as_null', True):
-        fig3, ax3 = plt.subplots(figsize=(12, 8))
-        sns.histplot(df['review_length'], bins=20, color='darkblue', kde=False, ax=ax3)
-        ax3.set_xlabel('Review Length', fontsize='large')
-        ax3.set_ylabel('Frequency', fontsize='large')
-        ax3.set_title('Review Length Analysis', fontsize='x-large')
-        st.pyplot(fig3)
+    pd.set_option('mode.use_inf_as_null', True)  # Set the pandas option directly
+    fig3, ax3 = plt.subplots(figsize=(12, 8))
+    sns.histplot(df['review_length'], bins=20, color='darkblue', kde=False, ax=ax3)
+    ax3.set_xlabel('Review Length', fontsize='large')
+    ax3.set_ylabel('Frequency', fontsize='large')
+    ax3.set_title('Review Length Analysis', fontsize='x-large')
+    st.pyplot(fig3)
 
     # --- Chart 4: Word Cloud - Frequency of Mentions ---
     st.subheader("Word Cloud - Frequency of Mentions")
