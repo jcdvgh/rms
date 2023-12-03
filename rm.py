@@ -1,5 +1,9 @@
 import streamlit as st
 import nltk
+except ImportError:
+    st.warning("Installing NLTK. This might take a while...")
+    !pip install nltk
+    import nltk
 import pandas as pd
 import numpy as np
 from dateutil.relativedelta import relativedelta
