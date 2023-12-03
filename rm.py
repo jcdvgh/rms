@@ -74,9 +74,8 @@ def render_charts(df):
     ax2.set_title('Average Sentiment Per Product OR Service', fontsize='x-large')
     st.pyplot(fig2)
 
-  # --- Chart 3: Review Length Analysis ---
+   # --- Chart 3: Review Length Analysis ---
     st.subheader("Review Length Analysis")
-    pd.set_option('mode.use_inf_as_null', True)  # Set the pandas option directly
     fig3, ax3 = plt.subplots(figsize=(12, 8))
     sns.histplot(df['review_length'], bins=20, color='darkblue', kde=False, ax=ax3)
     ax3.set_xlabel('Review Length', fontsize='large')
