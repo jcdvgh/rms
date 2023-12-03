@@ -6,7 +6,7 @@ python3 -m venv env
 # Activate the virtual environment
 source env/bin/activate  # For Linux/macOS
 env\Scripts\activate    # For Windows
-
+streamlit run rm.py
 # Install the required packages
 pip install -r nltk.txt
 pip install -r requirements.txt
