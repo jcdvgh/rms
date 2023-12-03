@@ -1,7 +1,13 @@
 import streamlit as st
-import nltk
+from nltk.sentiment import SentimentIntensityAnalyzer
 import pandas as pd
 import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
+import matplotlib.gridspec as gridspec
+import matplotlib.dates as mdates
+from matplotlib.backends.backend_pdf import PdfPages
+from wordcloud import WordCloud
 from dateutil.relativedelta import relativedelta
 
 # Download the NLTK VADER lexicon for sentiment analysis
@@ -10,12 +16,9 @@ nltk.download('vader_lexicon')
 # Streamlit app title
 st.title('Sentiment Analysis and Visualization')
 
-# File upload
-uploaded_file = st.file_uploader("Choose a CSV file", type="csv")
-
-# Load data if a file is uploaded
-if uploaded_file is not None:
-    df = pd.read_csv(uploaded_file)
+data_path = st.file_uploader("Upload CSV file", type=["csv"])
+if data_path:
+    df = pd.read_csv(data_path)
 
     # Create a PDF file to save the output
     pdf_path = '/output.pdf'
