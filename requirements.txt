@@ -1,9 +1,6 @@
-nltk
-pandas
-numpy
-seaborn
-matplotlib
-wordcloud
-python-dateutil
-streamlit
-nltk.download
+pandas==1.3.3
+nltk==3.6.5
+seaborn==0.11.2
+matplotlib==3.4.3
+wordcloud==1.8.1
+streamlit==1.0.0
