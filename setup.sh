@@ -12,7 +12,7 @@ pip install -r nltk.txt
 pip install -r requirements.txt
 pip install --upgrade streamlit
 -m pip install --upgrade pip
-pip install nltk
+pip install nltk --upgrade nltk
 pip install pandas
 pip install numpy
 pip install seaborn
