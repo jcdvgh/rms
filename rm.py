@@ -1,4 +1,5 @@
 import nltk
+from nltk.download
 # Download the NLTK VADER lexicon for sentiment analysis
 nltk.download('vader_lexicon')
 
