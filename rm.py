@@ -94,32 +94,6 @@ def render_charts(df):
     ax5.set_xticklabels(ax5.get_xticklabels(), rotation=45, ha='right')
     st.pyplot(fig5)
 
-    # --- Chart 7: Feedback Analysis - Sentiment per Feedback Category ---
-    st.subheader("Sentiment Analysis per Feedback Category")
-
-    fig7, ax_chart = plt.subplots(figsize=(12, 8))
-    sns.barplot(x='feedback_category', y='compound_sentiment', data=df, ax=ax_chart, palette='viridis')
-    ax_chart.set_xlabel('Feedback Category')
-    ax_chart.set_ylabel('Average Compound Sentiment')
-    ax_chart.set_title('Sentiment Analysis for Feedback Categories')
-    ax_chart.tick_params(axis='x', labelrotation=45)
-    
-    st.pyplot(fig7)
-
-      # --- Chart 7: Sentiment Analysis per Feedback Category ---
-    st.subheader("Sentiment Analysis per Feedback Category")
-    fig7, (ax_chart, ax_text) = plt.subplots(nrows=2, figsize=(12, 10), gridspec_kw={'height_ratios': [3, 1]})
-    sns.barplot(x='review_text', y='compound_sentiment', data=df, ax=ax_chart, palette='viridis')
-    ax_chart.set_xlabel('Feedback Category')
-    ax_chart.set_ylabel('Average Compound Sentiment')
-    ax_chart.set_title('Sentiment Analysis for Feedback Categories')
-    ax_chart.tick_params(axis='x', labelrotation=45)
-    text_to_display = df['review_text'].iloc[0]  # Just using the first index for displaying text
-    ax_text.text(0.5, 0.5, text_to_display, ha='center', va='center', fontsize=12, wrap=True)
-    ax_text.axis('off')
-    st.pyplot(fig7)
-
-
 # --- Positive and Negative Feedback Categories ---
     st.subheader("Positive and Negative Feedback Categories")
     
