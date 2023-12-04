@@ -95,24 +95,20 @@ def render_charts(df):
     st.pyplot(fig5)
 
     # --- Chart 7: Sentiment Analysis - Positive and Negative Feedback Categories ---
-    st.subheader("Sentiment Analysis - Positive and Negative Feedback Categories")
+    st.subheader("Sentiment Analysis - Combined Feedback Categories")
 
     positive_feedback = df[df['feedback_category'] == 'Positive']
     negative_feedback = df[df['feedback_category'] == 'Negative']
 
-    fig7, ax7 = plt.subplots(nrows=2, figsize=(12, 10), gridspec_kw={'height_ratios': [3, 1]})
-    sns.barplot(x=positive_feedback.index, y='compound_sentiment', data=positive_feedback, ax=ax7[0], palette='viridis')
-    sns.barplot(x=negative_feedback.index, y='compound_sentiment', data=negative_feedback, ax=ax7[1], palette='viridis')
+    combined_feedback = pd.concat([positive_feedback, negative_feedback])
 
-    ax7[0].set_xlabel('Positive Feedback', fontsize='large')
-    ax7[0].set_ylabel('Average Compound Sentiment', fontsize='large')
-    ax7[0].set_title('Sentiment Analysis for Positive Feedback', fontsize='x-large')
-    ax7[0].tick_params(axis='x', labelrotation=45)
+    fig7, ax7 = plt.subplots(figsize=(12, 8))
+    sns.barplot(x='feedback_category', y='compound_sentiment', data=combined_feedback, palette='viridis', ax=ax7)
 
-    ax7[1].set_xlabel('Negative Feedback', fontsize='large')
-    ax7[1].set_ylabel('Average Compound Sentiment', fontsize='large')
-    ax7[1].set_title('Sentiment Analysis for Negative Feedback', fontsize='x-large')
-    ax7[1].tick_params(axis='x', labelrotation=45)
+    ax7.set_xlabel('Feedback Category', fontsize='large')
+    ax7.set_ylabel('Average Compound Sentiment', fontsize='large')
+    ax7.set_title('Sentiment Analysis for Feedback Categories', fontsize='x-large')
+    ax7.set_xticklabels(ax7.get_xticklabels(), rotation=45, ha='right')
 
     st.pyplot(fig7)
 
