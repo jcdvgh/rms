@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+from PIL import Image
 import nltk
 import numpy as np
 from nltk.sentiment import SentimentIntensityAnalyzer
@@ -87,7 +88,7 @@ def render_charts(df):
     df_filtered = df[df['review_text'].notnull()][['atmosphere_compound', 'review_text', 'compound_sentiment']]
 
     # Chart 4: Average Sentiment per Aspect
-    st.subheader("Average Sentiment on Business Aspects")
+    st.subheader("Average Sentiment On Business Aspects")
     fig, ax = plt.subplots(figsize=(10, 6))
     df_filtered['Aspect'] = df_filtered['atmosphere_compound']
     avg_sentiment_by_aspect = df_filtered.groupby('Aspect')['compound_sentiment'].mean()
@@ -97,6 +98,22 @@ def render_charts(df):
     ax.set_title('Average Sentiment On Business Aspects')
 
     st.pyplot(fig)
+
+    st.title("Word Cloud - Frequency of Mentions")
+    
+    # Generate Word Cloud
+    wordcloud = generate_word_cloud(df)
+    
+    # Display Word Cloud using Matplotlib in Streamlit
+    fig, ax = plt.subplots(figsize=(12, 8))
+    ax.imshow(wordcloud, interpolation='bilinear')
+    ax.axis('off')
+    ax.set_title('Frequency of Mentions')
+
+    st.pyplot(fig)
+    
+    # Save the Word Cloud to a PDF
+    plt.savefig(pdf_path)
 
     # --- Chart 7: Sentiment Analysis - Combined Feedback Categories ---
     st.subheader("Sentiment Analysis For Feedback Categories")
