@@ -95,7 +95,7 @@ def render_charts(df):
     st.pyplot(fig5)
 
 
-  # --- Chart 7: Sentiment Analysis - Combined Feedback Categories ---
+    # --- Chart 7: Sentiment Analysis - Combined Feedback Categories ---
     st.subheader("Sentiment Analysis - Combined Feedback Categories")
 
     positive_feedback = df[df['feedback_category'] == 'Positive'].sample(n=20, replace=True)
@@ -113,7 +113,11 @@ def render_charts(df):
     ax_chart.set_title('Sentiment Analysis for Feedback Categories', fontsize='x-large')
     ax_chart.tick_params(axis='x', labelrotation=90)  # Rotate x-axis labels for better readability
 
+    plt.xticks([])  # Remove x-axis text
+    plt.tight_layout()
+
     st.pyplot(fig7)
+
 
 
 # --- Positive and Negative Feedback Categories ---
