@@ -25,3 +25,4 @@ py -m pip install --upgrade nltk
 pip install -r requirements.txt
 pip install click==7.1.2
 pip install --upgrade streamlit
+python3 -m pip install --upgrade Pillow
