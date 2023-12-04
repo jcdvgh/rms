@@ -139,6 +139,32 @@ def render_charts(df):
         st.write(feedback)
 
 
+# Combine all review text into a single string
+all_text = ' '.join(df['review_text'])
+
+# Split the text into words and count their frequencies
+word_counts = Counter(all_text.split())
+
+# Filter out common words or certain stopwords if needed
+# Example: stopwords = {'the', 'and', 'in', 'of'}
+# word_counts = {word: count for word, count in word_counts.items() if word.lower() not in stopwords}
+
+# Sort the word counts in descending order
+sorted_word_counts = dict(sorted(word_counts.items(), key=lambda item: item[1], reverse=True))
+
+# Plot the top N words by frequency
+N = 20  # Change this to display the top N words
+top_words = list(sorted_word_counts.keys())[:N]
+word_frequencies = [sorted_word_counts[word] for word in top_words]
+
+plt.figure(figsize=(12, 8))
+plt.barh(top_words, word_frequencies, color='skyblue')
+plt.xlabel('Frequency')
+plt.title('Top {} Word Frequencies'.format(N))
+plt.gca().invert_yaxis()  # Invert y-axis for better readability
+plt.show()
+
+
 def main():
     st.title('Sentiment Analysis Dashboard')
     uploaded_file = st.file_uploader("Upload CSV file", type="csv")
