@@ -139,9 +139,13 @@ def render_charts(df):
         st.write(feedback)
 
 
-# --- Word Frequency Chart ---
+
+    # --- Word Frequency Chart ---
     st.subheader("Word Frequency Chart")
     
+    # Handle missing values in 'review_text' column
+    df['review_text'].fillna('', inplace=True)
+
     # Combine all review text into a single string
     all_text = ' '.join(df['review_text'])
 
