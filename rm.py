@@ -88,6 +88,9 @@ def render_charts(df):
     ax3.set_title('Review Length Analysis', fontsize='x-large')
     st.pyplot(fig3)
 
+      # Filter non-null review_text for aspects and their respective sentiment
+    df_filtered = df[df['review_text'].notnull()][['atmosphere_compound', 'review_text', 'compound_sentiment']]
+
     st.markdown("<br><br>", unsafe_allow_html=True)
 
     # Chart 4: Average Sentiment per Aspect
