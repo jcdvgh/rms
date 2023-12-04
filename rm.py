@@ -139,19 +139,24 @@ def render_charts(df):
         st.write(feedback)
 
 # --- Chart 6: Word Cloud - Frequency of Mentions ---
-    st.subheader("Frequency of Mentions")
-    
-    # Generate WordCloud
-    wordcloud = WordCloud(width=800, height=400, max_words=100, background_color='white').generate(' '.join(df['review_text']))
+fig, ax = plt.subplots(figsize=(12, 8))
+wordcloud = WordCloud(width=800, height=400, max_words=100, background_color='white').generate(' '.join(df['review_text']))
 
-    # Plot the WordCloud
-    fig, ax = plt.subplots(figsize=(12, 8))
-    ax.imshow(wordcloud, interpolation='bilinear')
-    ax.axis('off')
-    ax.set_title('Frequency of Mentions')
-    plt.tight_layout()
+# Calculate text bbox dimensions
+image = wordcloud.to_image()
+draw = ImageDraw.Draw(image)
+_, _, text_width, text_height = draw.textbbox((0, 0), ' '.join(df['review_text']), font=wordcloud.font_path)
 
-    st.pyplot(fig)
+ax.imshow(wordcloud, interpolation='bilinear')
+ax.axis('off')
+ax.set_title('Frequency of Mentions')
+
+# Save the text bbox dimensions if needed
+bbox_dimensions = (text_width, text_height)
+
+# Display the plot
+plt.show()
+
 
 
 def main():
