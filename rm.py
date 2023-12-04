@@ -9,7 +9,6 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 from matplotlib.backends.backend_pdf import PdfPages
-from wordcloud import WordCloud
 from dateutil.relativedelta import relativedelta
 
 # Download the NLTK VADER lexicon for sentiment analysis
@@ -138,34 +137,6 @@ st.subheader("Positive and Negative Feedback Categories")
     st.write("Negative Feedback:")
     for feedback in negative_feedback:
         st.write(feedback)
-        
-
-    # --- Word Frequency Chart ---
-    st.subheader("Word Frequency Chart")
-    
-    # Handle missing values in 'review_text' column
-    df['review_text'].fillna('', inplace=True)
-
-    # Combine all review text into a single string
-    all_text = ' '.join(df['review_text'])
-
-    # Split the text into words and count their frequencies
-    word_counts = Counter(all_text.split())
-
-    # Sort the word counts in descending order
-    sorted_word_counts = dict(sorted(word_counts.items(), key=lambda item: item[1], reverse=True))
-
-    # Plot the top N words by frequency
-    N = 20  # Change this to display the top N words
-    top_words = list(sorted_word_counts.keys())[:N]
-    word_frequencies = [sorted_word_counts[word] for word in top_words]
-
-    plt.figure(figsize=(12, 8))
-    plt.barh(top_words, word_frequencies, color='skyblue')
-    plt.xlabel('Frequency')
-    plt.title('Top {} Word Frequencies'.format(N))
-    plt.gca().invert_yaxis()  # Invert y-axis for better readability
-    st.pyplot(plt)
 
 
 def main():
