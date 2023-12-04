@@ -57,7 +57,7 @@ def perform_sentiment_analysis(df):
 
 def render_charts(df):
     # --- Chart 1: Sentiment Analysis Based on Ratings ---
-    st.subheader("Sentiment Analysis Based On Ratings")
+    st.subheader("1. Sentiment Analysis Based On Ratings")
     fig1, ax1 = plt.subplots(figsize=(12, 8))
     sns.scatterplot(x='rating', y='compound_sentiment', data=df, hue='rating', palette='viridis', ax=ax1)
     ax1.set_xticks(list(sorted(df['rating'].unique())))
@@ -67,7 +67,7 @@ def render_charts(df):
     st.pyplot(fig1)
 
     # --- Chart 2: Average Sentiment Per Business ---
-    st.subheader("Average Sentiment Per Product OR Service")
+    st.subheader("2. Average Sentiment Per Product OR Service")
     fig2, ax2 = plt.subplots(figsize=(12, 8))
     sns.barplot(x='business_column', y='compound_sentiment', data=df, ax=ax2, palette='viridis')
     ax2.set_xlabel('Business', fontsize='large')
@@ -76,7 +76,7 @@ def render_charts(df):
     st.pyplot(fig2)
 
     # --- Chart 3: Review Length Analysis ---
-    st.subheader("Review Length Analysis")
+    st.subheader("3. Review Length Analysis")
     fig3, ax3 = plt.subplots(figsize=(12, 8))
     ax3.hist(df['review_length'], bins=20, color='darkblue')
     ax3.set_xlabel('Review Length', fontsize='large')
@@ -88,7 +88,7 @@ def render_charts(df):
     df_filtered = df[df['review_text'].notnull()][['atmosphere_compound', 'review_text', 'compound_sentiment']]
 
     # Chart 4: Average Sentiment per Aspect
-    st.subheader("Average Sentiment On Business Aspects")
+    st.subheader("4. Average Sentiment On Business Aspects")
     fig, ax = plt.subplots(figsize=(10, 6))
     df_filtered['Aspect'] = df_filtered['atmosphere_compound']
     avg_sentiment_by_aspect = df_filtered.groupby('Aspect')['compound_sentiment'].mean()
@@ -99,7 +99,7 @@ def render_charts(df):
     st.pyplot(fig)
 
  # --- Chart 7: Sentiment Analysis - Combined Feedback Categories ---
-    st.subheader("Sentiment Analysis For Feedback Categories")
+    st.subheader("5. Sentiment Analysis For Feedback Categories")
 
     positive_feedback = df[df['feedback_category'] == 'Positive'].sample(n=50, replace=True)
     negative_feedback = df[df['feedback_category'] == 'Negative'].sample(n=50, replace=True)
@@ -124,7 +124,7 @@ def render_charts(df):
     st.pyplot(fig7)
 
 # --- Positive and Negative Feedback Categories ---
-    st.subheader("Positive and Negative Feedback Categories")
+    st.subheader("6. Highly Effective Positive and Negative Feedback")
     
     positive_feedback = df[df['feedback_category'] == 'Positive']['review_text']
     negative_feedback = df[df['feedback_category'] == 'Negative']['review_text']
