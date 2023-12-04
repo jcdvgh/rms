@@ -98,12 +98,14 @@ def render_charts(df):
     ax.set_title('Average Sentiment On Business Aspects')
     st.pyplot(fig)
 
-  # Display the chart within Streamlit
+ # Display the chart within Streamlit
 st.subheader("Sentiment Analysis For Feedback Categories")
 
-# Define custom gradient colors using a colormap
-colors = ['lightgreen', 'lightcoral']  # Define your colors for positive and negative feedback
-cmap = ListedColormap(sns.color_palette(colors).as_hex())
+# Define custom colors for positive and negative feedback
+colors = {'Positive': 'lightgreen', 'Negative': 'lightcoral'}
+
+# Create a list of colors corresponding to feedback categories
+feedback_colors = [colors[cat] for cat in combined_feedback['feedback_category']]
 
 # Create the plot
 fig7, ax_chart = plt.subplots(figsize=(12, 8))
@@ -112,7 +114,7 @@ sns.barplot(
     y='compound_sentiment',
     hue='feedback_category',
     data=combined_feedback,
-    palette=cmap,  # Use the colormap here
+    palette=feedback_colors,  # Use the list of colors here
     ax=ax_chart
 )
 
@@ -125,20 +127,6 @@ plt.tight_layout()
 
 # Display the plot in Streamlit
 st.pyplot(fig7)
-
-# --- Positive and Negative Feedback Categories ---
-    st.subheader("Positive and Negative Feedback Categories")
-    
-    positive_feedback = df[df['feedback_category'] == 'Positive']['review_text']
-    negative_feedback = df[df['feedback_category'] == 'Negative']['review_text']
-    
-    st.write("Positive Feedback:")
-    for feedback in positive_feedback:
-        st.write(feedback)
-    
-    st.write("Negative Feedback:")
-    for feedback in negative_feedback:
-        st.write(feedback)
 
 
 def main():
