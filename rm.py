@@ -68,6 +68,16 @@ def render_charts(df):
     ax1.set_title('Sentiment Analysis Based On Ratings', fontsize='x-large')
     st.pyplot(fig1)
 
+     # --- Chart 1: Sentiment Analysis Based on Ratings ---
+    st.subheader("Sentiment Analysis Based On Ratings")
+    fig1, ax1 = plt.subplots(figsize=(12, 8))
+    sns.scatterplot(x='rating', y='compound_sentiment', data=df, hue='rating', palette='viridis', ax=ax1)
+    ax1.set_xticks(list(sorted(df['rating'].unique())))
+    ax1.set_xlabel('Rating', fontsize='large')
+    ax1.set_ylabel('Compound Sentiment', fontsize='large')
+    ax1.set_title('Sentiment Analysis Based On Ratings', fontsize='x-large')
+    st.pyplot(fig1)
+
     # --- Chart 2: Average Sentiment Per Business ---
     st.subheader("Average Sentiment Per Product OR Service")
     fig2, ax2 = plt.subplots(figsize=(12, 8))
