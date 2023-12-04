@@ -106,7 +106,7 @@ def render_charts(df):
   # --- Chart 7: Feedback Analysis - Sentiment per Feedback Category ---
     st.subheader("Sentiment Analysis per Feedback Category")
 
-    fig7, ax_chart = plt.subplots(figsize=(24, 12))
+    fig7, ax_chart = plt.subplots(nrows=2, figsize=(48, 60), gridspec_kw={'height_ratios': [6, 2]})
     sns.barplot(x='feedback_category', y='compound_sentiment', data=df, ax=ax_chart, palette='viridis')
     ax_chart.set_xlabel('Feedback Category')
     ax_chart.set_ylabel('Average Compound Sentiment')
@@ -117,7 +117,7 @@ def render_charts(df):
 
     # --- Chart 7: Sentiment Analysis per Feedback Category ---
     st.subheader("Sentiment Analysis per Feedback Category")
-    fig7, (ax_chart) = plt.subplots(nrows=2, figsize=(48, 60), gridspec_kw={'height_ratios': [6, 2]})
+    fig7, (ax_chart) = plt.subplots(nrows=2, figsize=(12, 8), gridspec_kw={'height_ratios': [6, 2]})
     sns.barplot(x='review_text', y='compound_sentiment', data=df, ax=ax_chart, palette='viridis')
     ax_chart.set_xlabel('Feedback Category')
     ax_chart.set_ylabel('Average Compound Sentiment')
