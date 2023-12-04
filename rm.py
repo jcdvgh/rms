@@ -5,24 +5,10 @@ import numpy as np
 from nltk.sentiment import SentimentIntensityAnalyzer
 import seaborn as sns
 import matplotlib.pyplot as plt
-import matplotlib.dates as mdates
 from matplotlib.backends.backend_pdf import PdfPages
-from wordcloud import WordCloud
-from dateutil.relativedelta import relativedelta
 
 # Download the NLTK VADER lexicon for sentiment analysis
 nltk.download('vader_lexicon')
-
-def convert_relative_time_to_date(relative_time):
-    try:
-        if 'months' in relative_time:
-            delta = relativedelta(months=int(relative_time.split()[0]))
-        else:
-            delta = relativedelta(years=int(relative_time.split()[0]))
-
-        return pd.to_datetime('today') - delta
-    except ValueError:
-        return pd.to_datetime('today')  # Default to today's date for non-numeric values
 
 def perform_sentiment_analysis(df):
     # Set Seaborn style
@@ -55,7 +41,7 @@ def perform_sentiment_analysis(df):
     return df
 
 def render_charts(df):
-    # --- Chart 1: Sentiment Analysis based on Ratings ---
+ # --- Chart 1: Sentiment Analysis based on Ratings ---
     st.subheader("Sentiment Analysis based on Ratings")
     fig1, ax1 = plt.subplots(figsize=(12, 8))
     sns.scatterplot(x='rating', y='compound_sentiment', data=df, hue='rating', palette='viridis', ax=ax1)
@@ -104,7 +90,7 @@ def render_charts(df):
     
     st.write("Negative Feedback:")
     for feedback in negative_feedback:
-        st.write(feedback)
+        st.write(feedback)    pass
 
 def save_charts_to_pdf(df):
     # Create a PDF file to save the charts
@@ -113,8 +99,6 @@ def save_charts_to_pdf(df):
         # Render charts and save them to the PDF
         render_charts(df)
         pdf.savefig()
-        pdf.close()
-
     return pdf_filename
 
 def main():
