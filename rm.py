@@ -96,24 +96,7 @@ def render_charts(df):
     ax.set_xlabel('Aspect')
     ax.set_ylabel('Average Compound Sentiment')
     ax.set_title('Average Sentiment On Business Aspects')
-
     st.pyplot(fig)
-
-    st.title("Word Cloud - Frequency of Mentions")
-    
-    # Generate Word Cloud
-    wordcloud = generate_word_cloud(df)
-    
-    # Display Word Cloud using Matplotlib in Streamlit
-    fig, ax = plt.subplots(figsize=(12, 8))
-    ax.imshow(wordcloud, interpolation='bilinear')
-    ax.axis('off')
-    ax.set_title('Frequency of Mentions')
-
-    st.pyplot(fig)
-    
-    # Save the Word Cloud to a PDF
-    plt.savefig(pdf_path)
 
     # --- Chart 7: Sentiment Analysis - Combined Feedback Categories ---
     st.subheader("Sentiment Analysis For Feedback Categories")
@@ -153,6 +136,26 @@ def render_charts(df):
     st.write("Negative Feedback:")
     for feedback in negative_feedback:
         st.write(feedback)
+
+# Function to generate word cloud image
+def generate_word_cloud(df):
+    wordcloud = WordCloud(width=800, height=400, max_words=100, background_color='white').generate(' '.join(df['review_text']))
+    return wordcloud
+
+# Streamlit app code
+def main():
+    st.title("Word Cloud - Frequency of Mentions")
+    
+    # Generate Word Cloud
+    wordcloud = generate_word_cloud(df)
+    
+    # Display Word Cloud using Matplotlib in Streamlit
+    fig, ax = plt.subplots(figsize=(12, 8))
+    ax.imshow(wordcloud, interpolation='bilinear')
+    ax.axis('off')
+    ax.set_title('Frequency of Mentions')
+
+    st.pyplot(fig)
 
 def main():
     st.title('Sentiment Analysis Dashboard')
