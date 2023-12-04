@@ -144,14 +144,6 @@ def render_charts(df):
     # Generate WordCloud
     wordcloud = WordCloud(width=800, height=400, max_words=100, background_color='white').generate(' '.join(df['review_text']))
 
-    # Get the text size using ImageDraw.textbbox
-    image = Image.new("RGB", (1, 1))  # Create a small image to calculate text size
-    draw = ImageDraw.Draw(image)
-    font = ImageFont.load_default()  # Change this to your desired font
-
-    text = ' '.join(df['review_text'])
-    _, _, text_width, text_height = draw.textbbox((0, 0), text, font=font)
-
     # Plot the WordCloud
     fig, ax = plt.subplots(figsize=(12, 8))
     ax.imshow(wordcloud, interpolation='bilinear')
@@ -160,7 +152,6 @@ def render_charts(df):
     plt.tight_layout()
 
     st.pyplot(fig)
-
 
 
 def main():
