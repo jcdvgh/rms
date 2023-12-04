@@ -77,7 +77,7 @@ def render_charts(df):
     # --- Chart 3: Review Length Analysis ---
     st.subheader("Review Length Analysis")
     fig3, ax3 = plt.subplots(figsize=(12, 8))
-    sns.histplot(df['review_length'], bins=20, color='darkblue', kde=False, ax=ax3)
+    ax3.hist(df['review_length'], bins=20, color='darkblue')
     ax3.set_xlabel('Review Length', fontsize='large')
     ax3.set_ylabel('Frequency', fontsize='large')
     ax3.set_title('Review Length Analysis', fontsize='x-large')
@@ -93,7 +93,7 @@ def render_charts(df):
     ax4.set_title('The Most Visible and Popular Words', fontsize='x-large')
     st.pyplot(fig4)
 
-    # --- Chart 5: Feedback Analysis - Distribution of Feedback Categories ---
+    # --- Chart 5: Distribution of Feedback Categories ---
     st.subheader("Distribution of Feedback Categories")
     fig5, ax5 = plt.subplots(figsize=(12, 8))
     sns.countplot(x='feedback_category', data=df, palette='viridis', ax=ax5)
@@ -109,15 +109,13 @@ def render_charts(df):
     df = df.sort_values(by='converted_date')
     fig6, ax6 = plt.subplots(figsize=(12, 8))
     sns.lineplot(x='converted_date', y='compound_sentiment', data=df, ax=ax6)
-    ax6.xaxis.set_major_locator(mdates.MonthLocator())
-    ax6.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
-    plt.xticks(rotation=45, ha='right')
+    ax6.xaxis.set_major_locator(plt.MaxNLocator(6))
     ax6.set_xlabel('Date', fontsize='large')
     ax6.set_ylabel('Average Compound Sentiment', fontsize='large')
     ax6.set_title('Rating Trends based on Date', fontsize='x-large')
     st.pyplot(fig6)
 
-    # --- Chart 7: Feedback Analysis - Sentiment per Feedback Category ---
+    # --- Chart 7: Sentiment Analysis per Feedback Category ---
     st.subheader("Sentiment Analysis per Feedback Category")
     fig7, (ax_chart, ax_text) = plt.subplots(nrows=2, figsize=(12, 10), gridspec_kw={'height_ratios': [3, 1]})
     sns.barplot(x='review_text', y='compound_sentiment', data=df, ax=ax_chart, palette='viridis')
@@ -125,7 +123,7 @@ def render_charts(df):
     ax_chart.set_ylabel('Average Compound Sentiment')
     ax_chart.set_title('Sentiment Analysis for Feedback Categories')
     ax_chart.tick_params(axis='x', labelrotation=45)
-    text_to_display = df['review_text'].iloc[0]  # Displaying first text for analysis
+    text_to_display = df['review_text'].iloc[0]  # Just using the first index for displaying text
     ax_text.text(0.5, 0.5, text_to_display, ha='center', va='center', fontsize=12, wrap=True)
     ax_text.axis('off')
     st.pyplot(fig7)
