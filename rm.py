@@ -94,6 +94,29 @@ def render_charts(df):
     ax5.set_xticklabels(ax5.get_xticklabels(), rotation=45, ha='right')
     st.pyplot(fig5)
 
+    # --- Chart 7: Sentiment Analysis - Positive and Negative Feedback Categories ---
+    st.subheader("Sentiment Analysis - Positive and Negative Feedback Categories")
+
+    positive_feedback = df[df['feedback_category'] == 'Positive']
+    negative_feedback = df[df['feedback_category'] == 'Negative']
+
+    fig7, ax7 = plt.subplots(nrows=2, figsize=(12, 10), gridspec_kw={'height_ratios': [3, 1]})
+    sns.barplot(x=positive_feedback.index, y='compound_sentiment', data=positive_feedback, ax=ax7[0], palette='viridis')
+    sns.barplot(x=negative_feedback.index, y='compound_sentiment', data=negative_feedback, ax=ax7[1], palette='viridis')
+
+    ax7[0].set_xlabel('Positive Feedback', fontsize='large')
+    ax7[0].set_ylabel('Average Compound Sentiment', fontsize='large')
+    ax7[0].set_title('Sentiment Analysis for Positive Feedback', fontsize='x-large')
+    ax7[0].tick_params(axis='x', labelrotation=45)
+
+    ax7[1].set_xlabel('Negative Feedback', fontsize='large')
+    ax7[1].set_ylabel('Average Compound Sentiment', fontsize='large')
+    ax7[1].set_title('Sentiment Analysis for Negative Feedback', fontsize='x-large')
+    ax7[1].tick_params(axis='x', labelrotation=45)
+
+    st.pyplot(fig7)
+
+
 # --- Positive and Negative Feedback Categories ---
     st.subheader("Positive and Negative Feedback Categories")
     
