@@ -58,6 +58,8 @@ def perform_sentiment_analysis(df):
     return df
 
 def render_charts(df):
+
+    
     # --- Chart 1: Sentiment Analysis Based on Ratings ---
     st.subheader("Sentiment Analysis Based On Ratings")
     fig1, ax1 = plt.subplots(figsize=(12, 8))
@@ -86,9 +88,6 @@ def render_charts(df):
     ax3.set_ylabel('Frequency', fontsize='large')
     ax3.set_title('Review Length Analysis', fontsize='x-large')
     st.pyplot(fig3)
-    
-    # Filter non-null review_text for aspects and their respective sentiment
-    df_filtered = df[df['review_text'].notnull()][['atmosphere_compound', 'review_text', 'compound_sentiment']]
 
     # Chart 4: Average Sentiment per Aspect
     st.subheader("Average Sentiment On Business Aspects")
@@ -140,8 +139,7 @@ st.subheader("Positive and Negative Feedback Categories")
     st.write("Negative Feedback:")
     for feedback in negative_feedback:
         st.write(feedback)
-
-
+        
 
     # --- Word Frequency Chart ---
     st.subheader("Word Frequency Chart")
