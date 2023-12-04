@@ -117,9 +117,6 @@ def render_charts(df):
     ax_chart.set_ylabel('Average Compound Sentiment')
     ax_chart.set_title('Sentiment Analysis for Feedback Categories')
     ax_chart.tick_params(axis='x', labelrotation=45)
-    text_to_display = df['review_text'].iloc[0]  # Just using the first index for displaying text
-    ax_text.text(0.5, 0.5, text_to_display, ha='center', va='center', fontsize=18, wrap=True)
-    ax_text.axis('off')
     st.pyplot(fig7)
 
 # --- Positive and Negative Feedback Categories ---
