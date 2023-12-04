@@ -83,14 +83,7 @@ st.pyplot(fig)
 
 
 
-    # --- Chart 2: Average Sentiment Per Business ---
-    st.subheader("Average Sentiment Per Product OR Service")
-    fig2, ax2 = plt.subplots(figsize=(12, 8))
-    sns.barplot(x='business_column', y='compound_sentiment', data=df, ax=ax2, palette='viridis')
-    ax2.set_xlabel('Business', fontsize='large')
-    ax2.set_ylabel('Average Compound Sentiment', fontsize='large')
-    ax2.set_title('Average Sentiment Per Product OR Service', fontsize='x-large')
-    st.pyplot(fig2)
+   
 
     # --- Chart 3: Review Length Analysis ---
     st.subheader("Review Length Analysis")
