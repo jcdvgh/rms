@@ -106,7 +106,7 @@ def render_charts(df):
     combined_feedback = pd.concat([positive_feedback, negative_feedback])
     combined_feedback['feedback_category'] = combined_feedback['feedback_category'].astype(str)
 
-    custom_palette = {'Positive': 'green', 'Negative': 'red'}  # Define your custom colors here
+    custom_palette = {'Positive': 'lightgreen', 'Negative': 'lightred'}  # Define your custom colors here
 
     fig7, ax_chart = plt.subplots(figsize=(12, 8))
     sns.barplot(x='review_text', y='compound_sentiment', hue='feedback_category', 
