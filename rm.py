@@ -85,54 +85,7 @@ st.pyplot(fig)
 
    
 
-    # --- Chart 3: Review Length Analysis ---
-    st.subheader("Review Length Analysis")
-    fig3, ax3 = plt.subplots(figsize=(12, 8))
-    ax3.hist(df['review_length'], bins=20, color='darkblue')
-    ax3.set_xlabel('Review Length', fontsize='large')
-    ax3.set_ylabel('Frequency', fontsize='large')
-    ax3.set_title('Review Length Analysis', fontsize='x-large')
-    st.pyplot(fig3)
     
-    # Filter non-null review_text for aspects and their respective sentiment
-    df_filtered = df[df['review_text'].notnull()][['atmosphere_compound', 'review_text', 'compound_sentiment']]
-
-    # Chart 4: Average Sentiment per Aspect
-    st.subheader("Average Sentiment On Business Aspects")
-    fig, ax = plt.subplots(figsize=(10, 6))
-    df_filtered['Aspect'] = df_filtered['atmosphere_compound']
-    avg_sentiment_by_aspect = df_filtered.groupby('Aspect')['compound_sentiment'].mean()
-    avg_sentiment_by_aspect.plot(kind='bar', color='darkorange', ax=ax)
-    ax.set_xlabel('Aspect')
-    ax.set_ylabel('Average Compound Sentiment')
-    ax.set_title('Average Sentiment On Business Aspects')
-    st.pyplot(fig)
-
-    # --- Chart 7: Sentiment Analysis - Combined Feedback Categories ---
-    st.subheader("Sentiment Analysis For Feedback Categories")
-
-    positive_feedback = df[df['feedback_category'] == 'Positive'].sample(n=50, replace=True)
-    negative_feedback = df[df['feedback_category'] == 'Negative'].sample(n=50, replace=True)
-
-    combined_feedback = pd.concat([positive_feedback, negative_feedback])
-    combined_feedback['feedback_category'] = combined_feedback['feedback_category'].astype(str)
-
-    custom_palette = {'Positive': 'green', 'Negative': 'red'}  # Define your custom colors here
-
-    fig7, ax_chart = plt.subplots(figsize=(12, 8))
-    sns.barplot(x='review_text', y='compound_sentiment', hue='feedback_category', 
-                data=combined_feedback, palette=custom_palette, ax=ax_chart)
-    
-    ax_chart.set_xlabel('Review Text', fontsize='large')
-    ax_chart.set_ylabel('Average Compound Sentiment', fontsize='large')
-    ax_chart.set_title('Sentiment Analysis For Feedback Categories', fontsize='x-large')
-    ax_chart.tick_params(axis='x', labelrotation=90)  # Rotate x-axis labels for better readability
-
-    plt.xticks([])  # Remove x-axis text
-    plt.tight_layout()
-
-    st.pyplot(fig7)
-
 # --- Positive and Negative Feedback Categories ---
     st.subheader("Positive and Negative Feedback Categories")
     
