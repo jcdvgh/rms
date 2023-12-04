@@ -98,18 +98,6 @@ def render_charts(df):
 
     st.pyplot(fig)
 
-
-    # --- Chart 5: Distribution Of Feedback Categories ---
-    st.subheader("Distribution of Feedback Categories")
-    fig5, ax5 = plt.subplots(figsize=(12, 8))
-    sns.countplot(x='feedback_category', data=df, palette='viridis', ax=ax5)
-    ax5.set_xlabel('Feedback Category', fontsize='large')
-    ax5.set_ylabel('Count', fontsize='large')
-    ax5.set_title('Distribution Of Feedback Categories', fontsize='x-large')
-    ax5.set_xticklabels(ax5.get_xticklabels(), rotation=45, ha='right')
-    st.pyplot(fig5)
-
-
     # --- Chart 7: Sentiment Analysis - Combined Feedback Categories ---
     st.subheader("Sentiment Analysis For Feedback Categories")
 
@@ -134,9 +122,6 @@ def render_charts(df):
     plt.tight_layout()
 
     st.pyplot(fig7)
-
-
-
 
 # --- Positive and Negative Feedback Categories ---
     st.subheader("Positive and Negative Feedback Categories")
