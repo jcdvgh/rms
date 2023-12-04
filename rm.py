@@ -55,18 +55,18 @@ def perform_sentiment_analysis(df):
     return df
 
 def render_charts(df):
-    # --- Chart 1: Sentiment Analysis based on Ratings ---
-    st.subheader("Sentiment Analysis based on Ratings")
+    # --- Chart 1: Sentiment Analysis Based on Ratings ---
+    st.subheader("Sentiment Analysis Based On Ratings")
     fig1, ax1 = plt.subplots(figsize=(12, 8))
     sns.scatterplot(x='rating', y='compound_sentiment', data=df, hue='rating', palette='viridis', ax=ax1)
     ax1.set_xticks(list(sorted(df['rating'].unique())))
     ax1.set_xlabel('Rating', fontsize='large')
     ax1.set_ylabel('Compound Sentiment', fontsize='large')
-    ax1.set_title('Sentiment Analysis based on Ratings', fontsize='x-large')
+    ax1.set_title('Sentiment Analysis Based On Ratings', fontsize='x-large')
     st.pyplot(fig1)
 
-    # --- Chart 2: Average Sentiment per Business ---
-    st.subheader("Average Sentiment per Business")
+    # --- Chart 2: Average Sentiment Per Business ---
+    st.subheader("Average Sentiment Per Product OR Service")
     fig2, ax2 = plt.subplots(figsize=(12, 8))
     sns.barplot(x='business_column', y='compound_sentiment', data=df, ax=ax2, palette='viridis')
     ax2.set_xlabel('Business', fontsize='large')
@@ -84,19 +84,19 @@ def render_charts(df):
     st.pyplot(fig3)
 
 
-    # --- Chart 5: Distribution of Feedback Categories ---
+    # --- Chart 5: Distribution Of Feedback Categories ---
     st.subheader("Distribution of Feedback Categories")
     fig5, ax5 = plt.subplots(figsize=(12, 8))
     sns.countplot(x='feedback_category', data=df, palette='viridis', ax=ax5)
     ax5.set_xlabel('Feedback Category', fontsize='large')
     ax5.set_ylabel('Count', fontsize='large')
-    ax5.set_title('Distribution of Feedback Categories', fontsize='x-large')
+    ax5.set_title('Distribution Of Feedback Categories', fontsize='x-large')
     ax5.set_xticklabels(ax5.get_xticklabels(), rotation=45, ha='right')
     st.pyplot(fig5)
 
 
     # --- Chart 7: Sentiment Analysis - Combined Feedback Categories ---
-    st.subheader("Sentiment Analysis for Feedback Categories")
+    st.subheader("Sentiment Analysis For Feedback Categories")
 
     positive_feedback = df[df['feedback_category'] == 'Positive'].sample(n=50, replace=True)
     negative_feedback = df[df['feedback_category'] == 'Negative'].sample(n=50, replace=True)
@@ -112,7 +112,7 @@ def render_charts(df):
     
     ax_chart.set_xlabel('Review Text', fontsize='large')
     ax_chart.set_ylabel('Average Compound Sentiment', fontsize='large')
-    ax_chart.set_title('Sentiment Analysis for Feedback Categories', fontsize='x-large')
+    ax_chart.set_title('Sentiment Analysis For Feedback Categories', fontsize='x-large')
     ax_chart.tick_params(axis='x', labelrotation=90)  # Rotate x-axis labels for better readability
 
     plt.xticks([])  # Remove x-axis text
