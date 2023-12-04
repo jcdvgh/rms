@@ -2,14 +2,15 @@ import streamlit as st
 import pandas as pd
 from PIL import Image
 import nltk
-from collections import Counter
 import numpy as np
 from nltk.sentiment import SentimentIntensityAnalyzer
 import seaborn as sns
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 from matplotlib.backends.backend_pdf import PdfPages
+from wordcloud import WordCloud
 from dateutil.relativedelta import relativedelta
+from PIL import Image, ImageDraw, ImageFont
 
 # Download the NLTK VADER lexicon for sentiment analysis
 nltk.download('vader_lexicon')
@@ -56,8 +57,6 @@ def perform_sentiment_analysis(df):
     return df
 
 def render_charts(df):
-
-    
     # --- Chart 1: Sentiment Analysis Based on Ratings ---
     st.subheader("Sentiment Analysis Based On Ratings")
     fig1, ax1 = plt.subplots(figsize=(12, 8))
@@ -68,8 +67,7 @@ def render_charts(df):
     ax1.set_title('Sentiment Analysis Based On Ratings', fontsize='x-large')
     st.pyplot(fig1)
 
-
-# --- Chart 2: Average Sentiment Per Business ---
+    # --- Chart 2: Average Sentiment Per Business ---
     st.subheader("Average Sentiment Per Product OR Service")
     fig2, ax2 = plt.subplots(figsize=(12, 8))
     sns.barplot(x='business_column', y='compound_sentiment', data=df, ax=ax2, palette='viridis')
@@ -86,6 +84,9 @@ def render_charts(df):
     ax3.set_ylabel('Frequency', fontsize='large')
     ax3.set_title('Review Length Analysis', fontsize='x-large')
     st.pyplot(fig3)
+    
+    # Filter non-null review_text for aspects and their respective sentiment
+    df_filtered = df[df['review_text'].notnull()][['atmosphere_compound', 'review_text', 'compound_sentiment']]
 
     # Chart 4: Average Sentiment per Aspect
     st.subheader("Average Sentiment On Business Aspects")
@@ -96,33 +97,35 @@ def render_charts(df):
     ax.set_xlabel('Aspect')
     ax.set_ylabel('Average Compound Sentiment')
     ax.set_title('Average Sentiment On Business Aspects')
-    st.pyplot(fig4)
+    st.pyplot(fig)
 
-  # ... (Previous code)
+    # --- Chart 7: Sentiment Analysis - Combined Feedback Categories ---
+    st.subheader("Sentiment Analysis For Feedback Categories")
 
-# --- Chart 7: Sentiment Analysis - Combined Feedback Categories ---
-st.subheader("Sentiment Analysis For Feedback Categories")
+    positive_feedback = df[df['feedback_category'] == 'Positive'].sample(n=50, replace=True)
+    negative_feedback = df[df['feedback_category'] == 'Negative'].sample(n=50, replace=True)
 
-custom_palette = {'Positive': 'green', 'Negative': 'red'}  # Define your custom colors here
+    combined_feedback = pd.concat([positive_feedback, negative_feedback])
+    combined_feedback['feedback_category'] = combined_feedback['feedback_category'].astype(str)
 
-fig7, ax_chart = plt.subplots(figsize=(12, 8))
-sns.barplot(x='review_text', y='compound_sentiment', hue='feedback_category', 
-            data=combined_feedback, palette=custom_palette, ax=ax_chart)
+    custom_palette = {'Positive': 'green', 'Negative': 'red'}  # Define your custom colors here
 
-ax_chart.set_xlabel('Review Text', fontsize='large')
-ax_chart.set_ylabel('Average Compound Sentiment', fontsize='large')
-ax_chart.set_title('Sentiment Analysis For Feedback Categories', fontsize='x-large')
-ax_chart.tick_params(axis='x', labelrotation=90)  # Rotate x-axis labels for better readability
+    fig7, ax_chart = plt.subplots(figsize=(12, 8))
+    sns.barplot(x='review_text', y='compound_sentiment', hue='feedback_category', 
+                data=combined_feedback, palette=custom_palette, ax=ax_chart)
+    
+    ax_chart.set_xlabel('Review Text', fontsize='large')
+    ax_chart.set_ylabel('Average Compound Sentiment', fontsize='large')
+    ax_chart.set_title('Sentiment Analysis For Feedback Categories', fontsize='x-large')
+    ax_chart.tick_params(axis='x', labelrotation=90)  # Rotate x-axis labels for better readability
 
-plt.xticks([])  # Remove x-axis text
-plt.tight_layout()
+    plt.xticks([])  # Remove x-axis text
+    plt.tight_layout()
 
-st.pyplot(fig7)
-
-
+    st.pyplot(fig7)
 
 # --- Positive and Negative Feedback Categories ---
-st.subheader("Positive and Negative Feedback Categories")
+    st.subheader("Positive and Negative Feedback Categories")
     
     positive_feedback = df[df['feedback_category'] == 'Positive']['review_text']
     negative_feedback = df[df['feedback_category'] == 'Negative']['review_text']
