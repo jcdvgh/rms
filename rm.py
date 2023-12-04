@@ -66,6 +66,8 @@ def render_charts(df):
     ax1.set_title('Sentiment Analysis Based On Ratings', fontsize='x-large')
     st.pyplot(fig1)
 
+    st.markdown("<br><br>", unsafe_allow_html=True)
+
     # --- Chart 2: Average Sentiment Per Business ---
     st.subheader("2. Average Sentiment Per Product OR Service")
     fig2, ax2 = plt.subplots(figsize=(12, 8))
@@ -74,6 +76,8 @@ def render_charts(df):
     ax2.set_ylabel('Average Compound Sentiment', fontsize='large')
     ax2.set_title('Average Sentiment Per Product OR Service', fontsize='x-large')
     st.pyplot(fig2)
+
+    st.markdown("<br><br>", unsafe_allow_html=True)
 
     # --- Chart 3: Review Length Analysis ---
     st.subheader("3. Review Length Analysis")
@@ -87,6 +91,8 @@ def render_charts(df):
     # Filter non-null review_text for aspects and their respective sentiment
     df_filtered = df[df['review_text'].notnull()][['atmosphere_compound', 'review_text', 'compound_sentiment']]
 
+    st.markdown("<br><br>", unsafe_allow_html=True)
+
     # Chart 4: Average Sentiment per Aspect
     st.subheader("4. Average Sentiment On Business Aspects")
     fig, ax = plt.subplots(figsize=(10, 6))
@@ -97,6 +103,8 @@ def render_charts(df):
     ax.set_ylabel('Average Compound Sentiment')
     ax.set_title('Average Sentiment On Business Aspects')
     st.pyplot(fig)
+
+    st.markdown("<br><br>", unsafe_allow_html=True)
 
  # --- Chart 7: Sentiment Analysis - Combined Feedback Categories ---
     st.subheader("5. Sentiment Analysis For Feedback Categories")
@@ -122,6 +130,8 @@ def render_charts(df):
     plt.tight_layout()
 
     st.pyplot(fig7)
+
+    st.markdown("<br><br>", unsafe_allow_html=True)
 
 # --- Positive and Negative Feedback Categories ---
     st.subheader("6. Highly Effective Positive and Negative Feedback")
