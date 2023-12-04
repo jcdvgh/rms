@@ -68,20 +68,6 @@ def render_charts(df):
     ax1.set_title('Sentiment Analysis Based On Ratings', fontsize='x-large')
     st.pyplot(fig1)
 
-    # --- Chart 1: Horizontal Bar Chart with Custom Colors (Sentiment Analysis Based On Ratings) ---
-st.subheader("Sentiment Analysis Based On Ratings - Horizontal Bar Chart")
-
-# Custom color palette
-custom_palette = ["#FF6347", "#7FFFD4", "#FFD700", "#32CD32", "#BA55D3"]  # Define your custom colors here
-
-# Assuming 'rating_categories' is categorical and 'compound_sentiment' is numeric
-fig, ax = plt.subplots(figsize=(10, 8))
-sns.barplot(x='compound_sentiment', y='rating_categories', data=df, palette=custom_palette, orient='h')
-ax.set_xlabel('Compound Sentiment', fontsize='large')
-ax.set_ylabel('Rating Categories', fontsize='large')
-ax.set_title('Sentiment Analysis Based On Ratings - Horizontal Bar Chart', fontsize='x-large')
-st.pyplot(fig)
-
 
     # --- Chart 2: Average Sentiment Per Business ---
     st.subheader("Average Sentiment Per Product OR Service")
