@@ -96,7 +96,7 @@ def render_charts(df):
 
 
     # --- Chart 7: Sentiment Analysis - Combined Feedback Categories ---
-    st.subheader("Sentiment Analysis - Combined Feedback Categories")
+    st.subheader("Sentiment Analysis for Feedback Categories")
 
     positive_feedback = df[df['feedback_category'] == 'Positive'].sample(n=50, replace=True)
     negative_feedback = df[df['feedback_category'] == 'Negative'].sample(n=50, replace=True)
