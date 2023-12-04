@@ -83,6 +83,26 @@ def render_charts(df):
     ax3.set_title('Review Length Analysis', fontsize='x-large')
     st.pyplot(fig3)
 
+    # Chart 4: Average Sentiment per Aspect
+    st.subheader("Average Sentiment On Business Aspects")
+    fig, ax = plt.subplots(figsize=(10, 6))
+    df_filtered['Aspect'] = df_filtered['atmosphere_compound']
+    avg_sentiment_by_aspect = df_filtered.groupby('Aspect')['compound_sentiment'].mean()
+    avg_sentiment_by_aspect.plot(kind='bar', color='darkorange', ax=ax)
+    ax.set_xlabel('Aspect')
+    ax.set_ylabel('Average Compound Sentiment')
+    ax.set_title('Average Sentiment On Business Aspects')
+
+    st.pyplot(fig)
+    
+    # Add review_text display
+    st.subheader("Review Text for Aspects")
+    aspect_texts = df_filtered[['Aspect', 'review_text']].groupby('Aspect')['review_text'].first()
+    st.write(aspect_texts)
+
+    # Save the chart to a file
+    pdf_pages.savefig()
+
 
     # --- Chart 5: Distribution Of Feedback Categories ---
     st.subheader("Distribution of Feedback Categories")
