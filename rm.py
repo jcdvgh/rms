@@ -94,8 +94,6 @@ if all_text:
     ax4.axis('off')
     ax4.set_title('The Most Visible and Popular Words', fontsize='x-large')
     st.pyplot(fig4)
-else:
-    st.write("No text data available to generate the Word Cloud.")
 
 
     # --- Chart 5: Distribution of Feedback Categories ---
