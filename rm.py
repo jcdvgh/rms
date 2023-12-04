@@ -90,7 +90,7 @@ def render_charts(df):
     
     st.write("Negative Feedback:")
     for feedback in negative_feedback:
-        st.write(feedback)    pass
+        st.write(feedback)    
 
 def save_charts_to_pdf(df):
     # Create a PDF file to save the charts
