@@ -137,11 +137,11 @@ def render_charts(df):
     for feedback in negative_feedback:
         st.write(feedback)
 
-# --- Chart 6: Word Cloud - Frequency of Mentions ---
+  # --- Chart 6: Word Cloud - Frequency of Mentions ---
     st.subheader("Frequency of Mentions - Word Cloud")
     
     # Generate Word Cloud
-    wordcloud = WordCloud(width=800, height=400, max_words=100, background_color='white').generate_from_text(' '.join(df['review_text']))
+    wordcloud = WordCloud(width=800, height=400, max_words=100, background_color='white').generate(' '.join(df['review_text']))
     
     # Display Word Cloud using Matplotlib in Streamlit
     fig, ax = plt.subplots(figsize=(12, 8))
