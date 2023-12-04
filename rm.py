@@ -5,6 +5,7 @@ import numpy as np
 from nltk.sentiment import SentimentIntensityAnalyzer
 import seaborn as sns
 import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
 from matplotlib.backends.backend_pdf import PdfPages
 from wordcloud import WordCloud
 from dateutil.relativedelta import relativedelta
@@ -53,9 +54,8 @@ def perform_sentiment_analysis(df):
 
     return df
 
-def render_charts(df, pdf_path):
-    # --- Generate charts ---
-# --- Chart 1: Sentiment Analysis based on Ratings ---
+def render_charts(df):
+    # --- Chart 1: Sentiment Analysis based on Ratings ---
     st.subheader("Sentiment Analysis based on Ratings")
     fig1, ax1 = plt.subplots(figsize=(12, 8))
     sns.scatterplot(x='rating', y='compound_sentiment', data=df, hue='rating', palette='viridis', ax=ax1)
@@ -95,24 +95,27 @@ def render_charts(df, pdf_path):
 
     # --- Positive and Negative Feedback Categories ---
     st.subheader("Positive and Negative Feedback Categories")
-
     positive_feedback = df[df['feedback_category'] == 'Positive']['review_text']
     negative_feedback = df[df['feedback_category'] == 'Negative']['review_text']
-
+    
     st.write("Positive Feedback:")
     for feedback in positive_feedback:
         st.write(feedback)
-
+    
     st.write("Negative Feedback:")
     for feedback in negative_feedback:
         st.write(feedback)
 
-    # Save all charts to a PDF file
-    with PdfPages(pdf_path) as pdf:
-        pdf.savefig(fig1)
-        pdf.savefig(fig2)
-        pdf.savefig(fig3)
-        # ... save other charts ...
+def save_charts_to_pdf(df):
+    # Create a PDF file to save the charts
+    pdf_filename = "sentiment_analysis_charts.pdf"
+    with PdfPages(pdf_filename) as pdf:
+        # Render charts and save them to the PDF
+        render_charts(df)
+        pdf.savefig()
+        pdf.close()
+
+    return pdf_filename
 
 def main():
     st.title('Sentiment Analysis Dashboard')
@@ -120,19 +123,17 @@ def main():
 
     if uploaded_file is not None:
         df = pd.read_csv(uploaded_file)
-        pdf_path = 'output.pdf'  # Path to the PDF file
         df = perform_sentiment_analysis(df)
-        render_charts(df, pdf_path)
 
-        # Display charts
-        st.pyplot(fig1)
-        st.pyplot(fig2)
-        st.pyplot(fig3)
-        # ... display other charts ...
+        # Render charts
+        render_charts(df)
 
-        # Provide a download button for the PDF file
-        st.markdown(f"Download the full report as a [PDF file](data:application/pdf;base64,{pdf_path})",
-                    unsafe_allow_html=True)
+        # Add a button to download the PDF file
+        if st.button("Download Charts as PDF"):
+            pdf_filename = save_charts_to_pdf(df)
+            with open(pdf_filename, "rb") as file:
+                btn_label = "Download PDF File"
+                st.download_button(label=btn_label, data=file, file_name=pdf_filename, mime="application/pdf")
 
 if __name__ == "__main__":
     main()
