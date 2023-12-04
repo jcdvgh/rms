@@ -85,21 +85,6 @@ st.pyplot(fig)
 
    
 
-    
-# --- Positive and Negative Feedback Categories ---
-    # ---  st.subheader("Positive and Negative Feedback Categories")
-    
-    positive_feedback = df[df['feedback_category'] == 'Positive']['review_text']
-    negative_feedback = df[df['feedback_category'] == 'Negative']['review_text']
-    
-    st.write("Positive Feedback:")
-    for feedback in positive_feedback:
-        st.write(feedback)
-    
-    st.write("Negative Feedback:")
-    for feedback in negative_feedback:
-        st.write(feedback)
-
 
 
     # --- Word Frequency Chart ---
