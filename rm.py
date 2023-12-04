@@ -93,7 +93,23 @@ def render_charts(df):
     ax5.set_title('Distribution of Feedback Categories', fontsize='x-large')
     ax5.set_xticklabels(ax5.get_xticklabels(), rotation=45, ha='right')
     st.pyplot(fig5)
+
+
+    # --- Chart 7: Feedback Analysis - Sentiment per Feedback Category ---
+    st.subheader("Sentiment Analysis per Feedback Category")
+
+    positive_feedback = df[df['feedback_category'] == 'Positive']
+    negative_feedback = df[df['feedback_category'] == 'Negative']
+
+    fig7, ax7 = plt.subplots(figsize=(12, 8))
+    sns.countplot(x='feedback_category', data=pd.concat([positive_feedback, negative_feedback]), palette='viridis', ax=ax7)
+
+    ax7.set_xlabel('Feedback Category', fontsize='large')
+    ax7.set_ylabel('Count', fontsize='large')
+    ax7.set_title('Distribution of Feedback Categories', fontsize='x-large')
+    ax7.set_xticklabels(ax7.get_xticklabels(), rotation=45, ha='right')
     
+    st.pyplot(fig7)
 
     # --- Chart 7: Sentiment Analysis per Feedback Category ---
     st.subheader("Sentiment Analysis per Feedback Category")
