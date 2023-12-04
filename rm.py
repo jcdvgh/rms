@@ -87,7 +87,7 @@ st.pyplot(fig)
 
     
 # --- Positive and Negative Feedback Categories ---
-    st.subheader("Positive and Negative Feedback Categories")
+    # ---  st.subheader("Positive and Negative Feedback Categories")
     
     positive_feedback = df[df['feedback_category'] == 'Positive']['review_text']
     negative_feedback = df[df['feedback_category'] == 'Negative']['review_text']
