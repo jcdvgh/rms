@@ -7,8 +7,6 @@ python3 -m venv env
 source env/bin/activate  # For Linux/macOS
 env\Scripts\activate    # For Windows
 streamlit run rm.py
-# Install the required packages
-pip install -r nltk.txt
 pip install -r requirements.txt
 pip install --upgrade streamlit
 -m pip install --upgrade pip
@@ -20,10 +18,5 @@ pip install matplotlib
 pip install wordcloud
 pip install python-dateutil
 pip install streamlit
-/home/adminuser/venv/bin/python -m pip install --upgrade pip
 py -m pip install --upgrade nltk
-pip install -r requirements.txt
 pip install click==7.1.2
-pip install --upgrade streamlit
-python3 -m pip install --upgrade Pillow
--m pip install --upgrade pip
