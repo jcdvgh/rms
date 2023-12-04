@@ -83,18 +83,6 @@ def render_charts(df):
     ax3.set_title('Review Length Analysis', fontsize='x-large')
     st.pyplot(fig3)
 
-   # --- Chart 4: Word Cloud - Frequency of Mentions ---
-st.subheader("Word Cloud - Frequency of Mentions")
-fig4, ax4 = plt.subplots(figsize=(12, 8))
-all_text = ' '.join(df['review_text'].values)
-if all_text:
-    wordcloud = WordCloud(width=800, height=400, max_words=100, background_color='white',
-                          colormap='viridis').generate(all_text)
-    ax4.imshow(wordcloud, interpolation='bilinear')
-    ax4.axis('off')
-    ax4.set_title('The Most Visible and Popular Words', fontsize='x-large')
-    st.pyplot(fig4)
-
 
     # --- Chart 5: Distribution of Feedback Categories ---
     st.subheader("Distribution of Feedback Categories")
