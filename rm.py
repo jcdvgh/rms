@@ -94,26 +94,32 @@ def render_charts(df):
     ax5.set_xticklabels(ax5.get_xticklabels(), rotation=45, ha='right')
     st.pyplot(fig5)
 
+
     # --- Chart 7: Sentiment Analysis - Combined Feedback Categories ---
     st.subheader("Sentiment Analysis - Combined Feedback Categories")
 
-    positive_feedback = df[df['feedback_category'] == 'Positive'].sample(n=100, replace=True)
-    negative_feedback = df[df['feedback_category'] == 'Negative'].sample(n=100, replace=True)
+    positive_feedback = df[df['feedback_category'] == 'Positive'].sample(n=20, replace=True)
+    negative_feedback = df[df['feedback_category'] == 'Negative'].sample(n=20, replace=True)
 
     combined_feedback = pd.concat([positive_feedback, negative_feedback])
     combined_feedback['feedback_category'] = combined_feedback['feedback_category'].astype(str)
 
-    fig7, ax7 = plt.subplots(figsize=(12, 8))
-    sns.barplot(x=combined_feedback.index, y='compound_sentiment', hue='feedback_category', 
-                data=combined_feedback, palette='viridis', ax=ax7)
+    fig7, (ax_chart, ax_text) = plt.subplots(nrows=2, figsize=(12, 10), gridspec_kw={'height_ratios': [3, 1]})
+    sns.barplot(x='review_text', y='compound_sentiment', hue='feedback_category', 
+                data=combined_feedback, palette='viridis', ax=ax_chart)
+    
+    ax_chart.set_xlabel('Feedback Category', fontsize='large')
+    ax_chart.set_ylabel('Average Compound Sentiment', fontsize='large')
+    ax_chart.set_title('Sentiment Analysis for Feedback Categories', fontsize='x-large')
+    ax_chart.tick_params(axis='x', labelrotation=45)  # Rotate x-axis labels for better readability
 
-    ax7.set_xlabel('Feedback Index', fontsize='large')
-    ax7.set_ylabel('Average Compound Sentiment', fontsize='large')
-    ax7.set_title('Sentiment Analysis for Combined Feedback (Sampled)', fontsize='x-large')
-    ax7.legend(title='Feedback Category')
-    ax7.set_xticklabels([])  # Remove x-axis labels
+    # Display 'review_text' separately for analysis
+    text_to_display = combined_feedback['review_text'].iloc[0]  # Displaying the review text from the combined data
+    ax_text.text(0.5, 0.5, text_to_display, ha='center', va='center', fontsize=12, wrap=True)
+    ax_text.axis('off')  # Turn off axis for better appearance
 
     st.pyplot(fig7)
+
 
 # --- Positive and Negative Feedback Categories ---
     st.subheader("Positive and Negative Feedback Categories")
