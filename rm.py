@@ -184,6 +184,61 @@ st.pyplot(fig)
     st.pyplot(plt)
 
 
+
+# --- Chart 2: Average Sentiment Per Business ---
+st.subheader("Average Sentiment Per Product OR Service")
+fig2, ax2 = plt.subplots(figsize=(12, 8))
+colors2 = ['#FFA07A', '#6495ED', '#90EE90']  # Custom colors for each bar
+sns.barplot(x='business_column', y='compound_sentiment', data=df, ax=ax2, palette=colors2[:len(df['business_column'].unique())])
+ax2.set_xlabel('Business', fontsize='large')
+ax2.set_ylabel('Average Compound Sentiment', fontsize='large')
+ax2.set_title('Average Sentiment Per Product OR Service', fontsize='x-large')
+st.pyplot(fig2)
+
+# --- Chart 3: Review Length Analysis ---
+st.subheader("Review Length Analysis")
+fig3, ax3 = plt.subplots(figsize=(12, 8))
+colors3 = ['#FF6347']  # Custom color for the bar
+ax3.hist(df['review_length'], bins=20, color=colors3)
+ax3.set_xlabel('Review Length', fontsize='large')
+ax3.set_ylabel('Frequency', fontsize='large')
+ax3.set_title('Review Length Analysis', fontsize='x-large')
+st.pyplot(fig3)
+
+# --- Chart 4: Average Sentiment per Aspect ---
+st.subheader("Average Sentiment On Business Aspects")
+fig4, ax4 = plt.subplots(figsize=(10, 6))
+colors4 = ['#FF4500', '#7B68EE', '#20B2AA']  # Custom colors for each bar
+df_filtered['Aspect'] = df_filtered['atmosphere_compound']
+avg_sentiment_by_aspect = df_filtered.groupby('Aspect')['compound_sentiment'].mean()
+avg_sentiment_by_aspect.plot(kind='bar', color=colors4[:len(avg_sentiment_by_aspect)])
+ax4.set_xlabel('Aspect')
+ax4.set_ylabel('Average Compound Sentiment')
+ax4.set_title('Average Sentiment On Business Aspects')
+st.pyplot(fig4)
+
+# --- Chart 7: Sentiment Analysis - Combined Feedback Categories ---
+st.subheader("Sentiment Analysis For Feedback Categories")
+
+custom_palette = {'Positive': 'green', 'Negative': 'red'}  # Define your custom colors here
+
+fig7, ax_chart = plt.subplots(figsize=(12, 8))
+sns.barplot(x='review_text', y='compound_sentiment', hue='feedback_category', 
+            data=combined_feedback, palette=custom_palette, ax=ax_chart)
+
+ax_chart.set_xlabel('Review Text', fontsize='large')
+ax_chart.set_ylabel('Average Compound Sentiment', fontsize='large')
+ax_chart.set_title('Sentiment Analysis For Feedback Categories', fontsize='x-large')
+ax_chart.tick_params(axis='x', labelrotation=90)  # Rotate x-axis labels for better readability
+
+plt.xticks([])  # Remove x-axis text
+plt.tight_layout()
+
+st.pyplot(fig7)
+
+
+
+
 def main():
     st.title('Sentiment Analysis Dashboard')
     uploaded_file = st.file_uploader("Upload CSV file", type="csv")
