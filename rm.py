@@ -98,35 +98,30 @@ def render_charts(df):
     ax.set_title('Average Sentiment On Business Aspects')
     st.pyplot(fig)
 
- # Display the chart within Streamlit
-st.subheader("Sentiment Analysis For Feedback Categories")
+ # --- Chart 7: Sentiment Analysis - Combined Feedback Categories ---
+    st.subheader("Sentiment Analysis For Feedback Categories")
 
-# Define custom colors for positive and negative feedback
-colors = {'Positive': 'lightgreen', 'Negative': 'lightcoral'}
+    positive_feedback = df[df['feedback_category'] == 'Positive'].sample(n=50, replace=True)
+    negative_feedback = df[df['feedback_category'] == 'Negative'].sample(n=50, replace=True)
 
-# Create a list of colors corresponding to feedback categories
-feedback_colors = [colors[cat] for cat in combined_feedback['feedback_category']]
+    combined_feedback = pd.concat([positive_feedback, negative_feedback])
+    combined_feedback['feedback_category'] = combined_feedback['feedback_category'].astype(str)
 
-# Create the plot
-fig7, ax_chart = plt.subplots(figsize=(12, 8))
-sns.barplot(
-    x='review_text',
-    y='compound_sentiment',
-    hue='feedback_category',
-    data=combined_feedback,
-    palette=feedback_colors,  # Use the list of colors here
-    ax=ax_chart
-)
+    custom_palette = {'Positive': 'lightgreen', 'Negative': 'lightred'}  # Define your custom colors here
 
-ax_chart.set_xlabel('Review Text', fontsize='large')
-ax_chart.set_ylabel('Average Compound Sentiment', fontsize='large')
-ax_chart.set_title('Sentiment Analysis For Feedback Categories', fontsize='x-large')
-ax_chart.tick_params(axis='x', labelrotation=90)  # Rotate x-axis labels for better readability
-plt.xticks([])  # Remove x-axis text
-plt.tight_layout()
+    fig7, ax_chart = plt.subplots(figsize=(12, 8))
+    sns.barplot(x='review_text', y='compound_sentiment', hue='feedback_category', 
+                data=combined_feedback, palette=custom_palette, ax=ax_chart)
+    
+    ax_chart.set_xlabel('Review Text', fontsize='large')
+    ax_chart.set_ylabel('Average Compound Sentiment', fontsize='large')
+    ax_chart.set_title('Sentiment Analysis For Feedback Categories', fontsize='x-large')
+    ax_chart.tick_params(axis='x', labelrotation=90)  # Rotate x-axis labels for better readability
 
-# Display the plot in Streamlit
-st.pyplot(fig7)
+    plt.xticks([])  # Remove x-axis text
+    plt.tight_layout()
+
+    st.pyplot(fig7)
 
 
 def main():
