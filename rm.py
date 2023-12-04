@@ -25,7 +25,7 @@ if uploaded_file is not None:
     df = pd.read_csv(uploaded_file)
 
     # Create a PDF file to save the output
-    pdf_path = '/output.pdf'
+    pdf_path = 'output.pdf'
     pdf_pages = PdfPages(pdf_path)
 
     # Set Seaborn style
@@ -55,6 +55,7 @@ if uploaded_file is not None:
     df.loc[df['review_text'].str.contains('|'.join(negative_keywords), case=False), 'feedback_category'] = 'Negative'
     df.loc[df['review_text'].str.contains('|'.join(suggestion_keywords), case=False), 'feedback_category'] = 'Suggestion'
 
+    # --- Create PDF with all charts ---
     # --- Chart 1: Sentiment Analysis based on Ratings ---
     st.subheader('Chart 1: Sentiment Analysis based on Ratings')
     fig, ax1 = plt.subplots(figsize=(12, 8))
@@ -64,7 +65,7 @@ if uploaded_file is not None:
     ax1.set_ylabel('Compound Sentiment', fontsize='large')
     ax1.set_title('Sentiment Analysis based on Ratings', fontsize='x-large')
     ax1.legend(fontsize='medium', title_fontsize='large')
-    st.pyplot(fig)
+    pdf_pages.savefig()
 
     # --- Chart 2: Average Sentiment per Business ---
     st.subheader('Chart 2: Average Sentiment per Business')
@@ -73,7 +74,7 @@ if uploaded_file is not None:
     ax2.set_xlabel('Business', fontsize='large')
     ax2.set_ylabel('Average Compound Sentiment', fontsize='large')
     ax2.set_title('Average Sentiment Per Product OR Service', fontsize='x-large')
-    st.pyplot(fig)
+    pdf_pages.savefig()
 
     # --- Chart 3: Review Length Analysis ---
     st.subheader('Chart 3: Review Length Analysis')
@@ -82,7 +83,7 @@ if uploaded_file is not None:
     ax3.set_xlabel('Review Length', fontsize='large')
     ax3.set_ylabel('Frequency', fontsize='large')
     ax3.set_title('Review Length Analysis', fontsize='x-large')
-    st.pyplot(fig)
+    pdf_pages.savefig()
 
     # --- Chart 4: Word Cloud - Frequency of Mentions ---
     st.subheader('Chart 4: Word Cloud - Frequency of Mentions')
@@ -92,7 +93,7 @@ if uploaded_file is not None:
     ax6.imshow(wordcloud, interpolation='bilinear')
     ax6.axis('off')
     ax6.set_title('The Most Visible and Popular Words', fontsize='x-large')
-    st.pyplot(fig)
+    pdf_pages.savefig()
 
     # --- Chart 5: Feedback Analysis - Distribution of Feedback Categories ---
     st.subheader('Chart 5: Distribution of Feedback Categories')
@@ -102,7 +103,7 @@ if uploaded_file is not None:
     ax7.set_ylabel('Count', fontsize='large')
     ax7.set_title('Distribution of Feedback Categories', fontsize='x-large')
     ax7.set_xticklabels(ax7.get_xticklabels(), rotation=45, ha='right')
-    st.pyplot(fig)
+    pdf_pages.savefig()
 
     # --- Chart 6: Sentiment Trends based on Time Periods ---
     st.subheader('Chart 6: Sentiment Trends based on Time Periods')
@@ -116,7 +117,7 @@ if uploaded_file is not None:
     ax5.set_xlabel('Date', fontsize='large')
     ax5.set_ylabel('Average Compound Sentiment', fontsize='large')
     ax5.set_title('Rating Trends based on Date', fontsize='x-large')
-    st.pyplot(fig)
+    pdf_pages.savefig()
 
     # --- Chart 7: Feedback Analysis - Sentiment per Feedback Category ---
     st.subheader('Chart 7: Sentiment Analysis for Feedback Categories')
@@ -129,15 +130,10 @@ if uploaded_file is not None:
     text_to_display = df['review_text'].iloc[0]
     ax_text.text(0.5, 0.5, text_to_display, ha='center', va='center', fontsize=12, wrap=True)
     ax_text.axis('off')
-    st.pyplot(fig)
-
-    # Save the chart to a file or display it
-    chart_filename = 'feedback_analysis_chart.png'
-    plt.savefig(chart_filename)
-    plt.show()
+    pdf_pages.savefig()
 
     # Close the PDF file
     pdf_pages.close()
 
-    # Display the PDF path
-    st.text(f'Output saved to: {pdf_path}')
+    # Provide a link to download the PDF file
+    st.markdown(f'Download the complete report [here]({pdf_path})')
