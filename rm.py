@@ -83,8 +83,15 @@ def render_charts(df):
     ax3.set_title('Review Length Analysis', fontsize='x-large')
     st.pyplot(fig3)
 
+  # Streamlit app code
+def main():
+    st.title("Average Sentiment Analysis on Business Aspects")
+    
+    # Filter non-null review_text for aspects and their respective sentiment
+    df_filtered = df[df['review_text'].notnull()][['atmosphere_compound', 'review_text', 'compound_sentiment']]
+
     # Chart 4: Average Sentiment per Aspect
-    st.subheader("Average Sentiment On Business Aspects")
+    st.subheader("Average Sentiment on Business Aspects")
     fig, ax = plt.subplots(figsize=(10, 6))
     df_filtered['Aspect'] = df_filtered['atmosphere_compound']
     avg_sentiment_by_aspect = df_filtered.groupby('Aspect')['compound_sentiment'].mean()
@@ -94,14 +101,6 @@ def render_charts(df):
     ax.set_title('Average Sentiment On Business Aspects')
 
     st.pyplot(fig)
-    
-    # Add review_text display
-    st.subheader("Review Text for Aspects")
-    aspect_texts = df_filtered[['Aspect', 'review_text']].groupby('Aspect')['review_text'].first()
-    st.write(aspect_texts)
-
-    # Save the chart to a file
-    pdf_pages.savefig()
 
 
     # --- Chart 5: Distribution Of Feedback Categories ---
