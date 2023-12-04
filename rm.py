@@ -82,10 +82,6 @@ def render_charts(df):
     ax3.set_ylabel('Frequency', fontsize='large')
     ax3.set_title('Review Length Analysis', fontsize='x-large')
     st.pyplot(fig3)
-
-  # Streamlit app code
-def main():
-    st.title("Average Sentiment Analysis on Business Aspects")
     
     # Filter non-null review_text for aspects and their respective sentiment
     df_filtered = df[df['review_text'].notnull()][['atmosphere_compound', 'review_text', 'compound_sentiment']]
