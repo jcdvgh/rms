@@ -2,12 +2,12 @@ import streamlit as st
 import pandas as pd
 import nltk
 import numpy as np
+from nltk.sentiment import SentimentIntensityAnalyzer
 import seaborn as sns
 import matplotlib.pyplot as plt
-from nltk.sentiment import SentimentIntensityAnalyzer
-from wordcloud import WordCloud
 from matplotlib.backends.backend_pdf import PdfPages
-import base64
+from wordcloud import WordCloud
+from dateutil.relativedelta import relativedelta
 
 # Download the NLTK VADER lexicon for sentiment analysis
 nltk.download('vader_lexicon')
@@ -53,8 +53,8 @@ def perform_sentiment_analysis(df):
 
     return df
 
-def render_charts(df):
- # --- Chart 1: Sentiment Analysis based on Ratings ---
+def render_charts(df, pdf_path):
+    # --- Chart 1: Sentiment Analysis based on Ratings ---
     st.subheader("Sentiment Analysis based on Ratings")
     fig1, ax1 = plt.subplots(figsize=(12, 8))
     sns.scatterplot(x='rating', y='compound_sentiment', data=df, hue='rating', palette='viridis', ax=ax1)
@@ -92,29 +92,12 @@ def render_charts(df):
     ax5.set_xticklabels(ax5.get_xticklabels(), rotation=45, ha='right')
     st.pyplot(fig5)
 
-# --- Positive and Negative Feedback Categories ---
-    st.subheader("Positive and Negative Feedback Categories")
-
-    positive_feedback = df[df['feedback_category'] == 'Positive']['review_text']
-    negative_feedback = df[df['feedback_category'] == 'Negative']['review_text']
-
-    st.write("Positive Feedback:")
-    for feedback in positive_feedback:
-        st.write(feedback)
-
-    st.write("Negative Feedback:")
-    for feedback in negative_feedback:
-        st.write(feedback)
-        
-# Function to generate PDF with all charts
-def generate_pdf(df):
- # Save all charts to a PDF file
+    # Save all charts to a PDF file
     with PdfPages(pdf_path) as pdf:
         pdf.savefig(fig1)
         pdf.savefig(fig2)
         pdf.savefig(fig3)
         pdf.savefig(fig5)
-
 
 def main():
     st.title('Sentiment Analysis Dashboard')
@@ -122,17 +105,12 @@ def main():
 
     if uploaded_file is not None:
         df = pd.read_csv(uploaded_file)
+        pdf_path = 'output.pdf'  # Path to the PDF file
         df = perform_sentiment_analysis(df)
-        render_charts(df)
+        render_charts(df, pdf_path)
 
-        # Generate PDF button
-        if st.button('Download PDF'):
-            pdf_path = generate_pdf(df)
-            with open(pdf_path, "rb") as f:
-                bytes_data = f.read()
-                b64 = base64.b64encode(bytes_data).decode()
-                href = f'<a href="data:application/octet-stream;base64,{b64}" download="output.pdf">Download PDF file</a>'
-                st.markdown(href, unsafe_allow_html=True)
+        # Provide a download button for the PDF file
+        st.markdown(f"Download the full report as a [PDF file](/{pdf_path})")
 
 if __name__ == "__main__":
     main()
