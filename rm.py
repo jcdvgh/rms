@@ -101,14 +101,20 @@ def render_charts(df):
     positive_feedback = df[df['feedback_category'] == 'Positive']
     negative_feedback = df[df['feedback_category'] == 'Negative']
 
+    combined_feedback = pd.concat([positive_feedback, negative_feedback])
+    
     fig7, ax7 = plt.subplots(figsize=(12, 8))
-    sns.countplot(x='feedback_category', data=pd.concat([positive_feedback, negative_feedback]), palette='viridis', ax=ax7)
+    sns.countplot(x='feedback_category', data=combined_feedback, palette='viridis', ax=ax7)
 
     ax7.set_xlabel('Feedback Category', fontsize='large')
     ax7.set_ylabel('Count', fontsize='large')
     ax7.set_title('Distribution of Feedback Categories', fontsize='x-large')
     ax7.set_xticklabels(ax7.get_xticklabels(), rotation=45, ha='right')
-    
+
+    # Adding counts on top of bars
+    for p in ax7.patches:
+        ax7.annotate(f'{p.get_height()}', (p.get_x() + p.get_width() / 2, p.get_height()), ha='center', va='bottom', fontsize=10)
+
     st.pyplot(fig7)
 
     # --- Chart 7: Sentiment Analysis per Feedback Category ---
