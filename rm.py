@@ -8,9 +8,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 from matplotlib.backends.backend_pdf import PdfPages
-from wordcloud import WordCloud
 from dateutil.relativedelta import relativedelta
-from PIL import Image, ImageDraw, ImageFont
 
 # Download the NLTK VADER lexicon for sentiment analysis
 nltk.download('vader_lexicon')
