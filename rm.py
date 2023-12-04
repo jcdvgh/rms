@@ -5,10 +5,24 @@ import numpy as np
 from nltk.sentiment import SentimentIntensityAnalyzer
 import seaborn as sns
 import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
 from matplotlib.backends.backend_pdf import PdfPages
+from wordcloud import WordCloud
+from dateutil.relativedelta import relativedelta
 
 # Download the NLTK VADER lexicon for sentiment analysis
 nltk.download('vader_lexicon')
+
+def convert_relative_time_to_date(relative_time):
+    try:
+        if 'months' in relative_time:
+            delta = relativedelta(months=int(relative_time.split()[0]))
+        else:
+            delta = relativedelta(years=int(relative_time.split()[0]))
+
+        return pd.to_datetime('today') - delta
+    except ValueError:
+        return pd.to_datetime('today')  # Default to today's date for non-numeric values
 
 def perform_sentiment_analysis(df):
     # Set Seaborn style
@@ -41,7 +55,7 @@ def perform_sentiment_analysis(df):
     return df
 
 def render_charts(df):
- # --- Chart 1: Sentiment Analysis based on Ratings ---
+    # --- Chart 1: Sentiment Analysis based on Ratings ---
     st.subheader("Sentiment Analysis based on Ratings")
     fig1, ax1 = plt.subplots(figsize=(12, 8))
     sns.scatterplot(x='rating', y='compound_sentiment', data=df, hue='rating', palette='viridis', ax=ax1)
@@ -69,6 +83,7 @@ def render_charts(df):
     ax3.set_title('Review Length Analysis', fontsize='x-large')
     st.pyplot(fig3)
 
+
     # --- Chart 5: Distribution of Feedback Categories ---
     st.subheader("Distribution of Feedback Categories")
     fig5, ax5 = plt.subplots(figsize=(12, 8))
@@ -79,8 +94,9 @@ def render_charts(df):
     ax5.set_xticklabels(ax5.get_xticklabels(), rotation=45, ha='right')
     st.pyplot(fig5)
 
-    # --- Positive and Negative Feedback Categories ---
+# --- Positive and Negative Feedback Categories ---
     st.subheader("Positive and Negative Feedback Categories")
+    
     positive_feedback = df[df['feedback_category'] == 'Positive']['review_text']
     negative_feedback = df[df['feedback_category'] == 'Negative']['review_text']
     
@@ -90,16 +106,7 @@ def render_charts(df):
     
     st.write("Negative Feedback:")
     for feedback in negative_feedback:
-        st.write(feedback)    
-
-def save_charts_to_pdf(df):
-    # Create a PDF file to save the charts
-    pdf_filename = "sentiment_analysis_charts.pdf"
-    with PdfPages(pdf_filename) as pdf:
-        # Render charts and save them to the PDF
-        render_charts(df)
-        pdf.savefig()
-    return pdf_filename
+        st.write(feedback)
 
 def main():
     st.title('Sentiment Analysis Dashboard')
@@ -108,16 +115,7 @@ def main():
     if uploaded_file is not None:
         df = pd.read_csv(uploaded_file)
         df = perform_sentiment_analysis(df)
-
-        # Render charts
         render_charts(df)
-
-        # Add a button to download the PDF file
-        if st.button("Download Charts as PDF"):
-            pdf_filename = save_charts_to_pdf(df)
-            with open(pdf_filename, "rb") as file:
-                btn_label = "Download PDF File"
-                st.download_button(label=btn_label, data=file, file_name=pdf_filename, mime="application/pdf")
 
 if __name__ == "__main__":
     main()
