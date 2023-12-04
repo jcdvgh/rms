@@ -98,15 +98,17 @@ def render_charts(df):
     # --- Chart 7: Sentiment Analysis - Combined Feedback Categories ---
     st.subheader("Sentiment Analysis - Combined Feedback Categories")
 
-    positive_feedback = df[df['feedback_category'] == 'Positive'].sample(n=100, replace=True)
-    negative_feedback = df[df['feedback_category'] == 'Negative'].sample(n=100, replace=True)
+    positive_feedback = df[df['feedback_category'] == 'Positive'].sample(n=20, replace=True)
+    negative_feedback = df[df['feedback_category'] == 'Negative'].sample(n=20, replace=True)
 
     combined_feedback = pd.concat([positive_feedback, negative_feedback])
     combined_feedback['feedback_category'] = combined_feedback['feedback_category'].astype(str)
 
+    custom_palette = {'Positive': 'green', 'Negative': 'red'}  # Define your custom colors here
+
     fig7, ax_chart = plt.subplots(figsize=(12, 8))
     sns.barplot(x='review_text', y='compound_sentiment', hue='feedback_category', 
-                data=combined_feedback, palette='viridis', ax=ax_chart)
+                data=combined_feedback, palette=custom_palette, ax=ax_chart)
     
     ax_chart.set_xlabel('Review Text', fontsize='large')
     ax_chart.set_ylabel('Average Compound Sentiment', fontsize='large')
@@ -117,6 +119,7 @@ def render_charts(df):
     plt.tight_layout()
 
     st.pyplot(fig7)
+
 
 
 
