@@ -93,18 +93,7 @@ def render_charts(df):
     ax5.set_title('Distribution of Feedback Categories', fontsize='x-large')
     ax5.set_xticklabels(ax5.get_xticklabels(), rotation=45, ha='right')
     st.pyplot(fig5)
-
-    # --- Chart 6: Sentiment Trends based on Time Periods ---
-    st.subheader("Sentiment Trends based on Time Periods")
-    df['converted_date'] = df['date'].apply(convert_relative_time_to_date)
-    df = df.sort_values(by='converted_date')
-    fig6, ax6 = plt.subplots(figsize=(12, 8))
-    sns.lineplot(x='converted_date', y='compound_sentiment', data=df, ax=ax6)
-    ax6.xaxis.set_major_locator(plt.MaxNLocator(6))
-    ax6.set_xlabel('Date', fontsize='large')
-    ax6.set_ylabel('Average Compound Sentiment', fontsize='large')
-    ax6.set_title('Rating Trends based on Date', fontsize='x-large')
-    st.pyplot(fig6)
+    
 
     # --- Chart 7: Sentiment Analysis per Feedback Category ---
     st.subheader("Sentiment Analysis per Feedback Category")
