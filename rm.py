@@ -137,25 +137,21 @@ def render_charts(df):
     for feedback in negative_feedback:
         st.write(feedback)
 
-# Function to generate word cloud image
-def generate_word_cloud(df):
-    wordcloud = WordCloud(width=800, height=400, max_words=100, background_color='white').generate(' '.join(df['review_text']))
-    return wordcloud
-
-# Streamlit app code
-def main():
-    st.title("Word Cloud - Frequency of Mentions")
+# --- Chart 6: Word Cloud - Frequency of Mentions ---
+    st.subheader("Frequency of Mentions - Word Cloud")
     
     # Generate Word Cloud
-    wordcloud = generate_word_cloud(df)
+    wordcloud = WordCloud(width=800, height=400, max_words=100, background_color='white').generate(' '.join(df['review_text']))
     
     # Display Word Cloud using Matplotlib in Streamlit
     fig, ax = plt.subplots(figsize=(12, 8))
     ax.imshow(wordcloud, interpolation='bilinear')
     ax.axis('off')
-    ax.set_title('Frequency of Mentions')
+    ax.set_title('Frequency of Mentions - Word Cloud')
 
     st.pyplot(fig)
+
+
 
 def main():
     st.title('Sentiment Analysis Dashboard')
