@@ -55,6 +55,9 @@ def perform_sentiment_analysis(df):
     return df
 
 def render_charts(df):
+    # Replace infinite values with NaN
+    df.replace([np.inf, -np.inf], np.nan, inplace=True)
+    
     # --- Chart 1: Sentiment Analysis based on Ratings ---
     st.subheader("Sentiment Analysis based on Ratings")
     fig1, ax1 = plt.subplots(figsize=(12, 8))
