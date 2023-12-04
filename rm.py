@@ -10,6 +10,7 @@ import matplotlib.dates as mdates
 from matplotlib.backends.backend_pdf import PdfPages
 from wordcloud import WordCloud
 from dateutil.relativedelta import relativedelta
+from PIL import Image, ImageDraw, ImageFont
 
 # Download the NLTK VADER lexicon for sentiment analysis
 nltk.download('vader_lexicon')
@@ -137,17 +138,26 @@ def render_charts(df):
     for feedback in negative_feedback:
         st.write(feedback)
 
-  # --- Chart 6: Word Cloud - Frequency of Mentions ---
-    st.subheader("Frequency of Mentions - Word Cloud")
+ # --- Chart 6: Word Cloud - Frequency of Mentions ---
+    st.subheader("Frequency of Mentions")
     
-    # Generate Word Cloud
+    # Generate WordCloud
     wordcloud = WordCloud(width=800, height=400, max_words=100, background_color='white').generate(' '.join(df['review_text']))
-    
-    # Display Word Cloud using Matplotlib in Streamlit
+
+    # Get the text size using ImageDraw.textbbox
+    image = Image.new("RGB", (1, 1))  # Create a small image to calculate text size
+    draw = ImageDraw.Draw(image)
+    font = ImageFont.load_default()  # Change this to your desired font
+
+    text = ' '.join(df['review_text'])
+    _, _, text_width, text_height = draw.textbbox((0, 0), text, font=font)
+
+    # Plot the WordCloud
     fig, ax = plt.subplots(figsize=(12, 8))
     ax.imshow(wordcloud, interpolation='bilinear')
     ax.axis('off')
-    ax.set_title('Frequency of Mentions - Word Cloud')
+    ax.set_title('Frequency of Mentions')
+    plt.tight_layout()
 
     st.pyplot(fig)
 
