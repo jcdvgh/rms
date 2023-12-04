@@ -103,24 +103,16 @@ def render_charts(df):
     ax7.set_title('Sentiment Analysis for Feedback Categories')
     st.pyplot(fig7)
 
-# --- Chart 7: Feedback Analysis - Sentiment per Feedback Category ---
+  # --- Chart 7: Feedback Analysis - Sentiment per Feedback Category ---
     st.subheader("Sentiment Analysis per Feedback Category")
 
-    positive_feedback = df[df['feedback_category'] == 'Positive']
-    negative_feedback = df[df['feedback_category'] == 'Negative']
-
-    fig7, (ax_pos, ax_neg) = plt.subplots(1, 2, figsize=(16, 8))
-
-    sns.countplot(x='feedback_category', data=positive_feedback, palette='viridis', ax=ax_pos)
-    ax_pos.set_xlabel('Feedback Category', fontsize='large')
-    ax_pos.set_ylabel('Count', fontsize='large')
-    ax_pos.set_title('Positive Feedback', fontsize='x-large')
-
-    sns.countplot(x='feedback_category', data=negative_feedback, palette='viridis', ax=ax_neg)
-    ax_neg.set_xlabel('Feedback Category', fontsize='large')
-    ax_neg.set_ylabel('Count', fontsize='large')
-    ax_neg.set_title('Negative Feedback', fontsize='x-large')
-
+    fig7, ax_chart = plt.subplots(figsize=(24, 12))
+    sns.barplot(x='feedback_category', y='compound_sentiment', data=df, ax=ax_chart, palette='viridis')
+    ax_chart.set_xlabel('Feedback Category')
+    ax_chart.set_ylabel('Average Compound Sentiment')
+    ax_chart.set_title('Sentiment Analysis for Feedback Categories')
+    ax_chart.tick_params(axis='x', labelrotation=45)
+    
     st.pyplot(fig7)
 
     # --- Chart 7: Sentiment Analysis per Feedback Category ---
