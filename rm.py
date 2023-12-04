@@ -1,20 +1,18 @@
 import streamlit as st
 import pandas as pd
-import plotly.express as px
-import numpy as np
+from PIL import Image
 import nltk
+import numpy as np
 from nltk.sentiment import SentimentIntensityAnalyzer
+import seaborn as sns
+import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
+from matplotlib.backends.backend_pdf import PdfPages
 from dateutil.relativedelta import relativedelta
+from matplotlib.colors import ListedColormap
 
 # Download the NLTK VADER lexicon for sentiment analysis
 nltk.download('vader_lexicon')
-
-# Define custom colors
-custom_colors = {
-    'Positive': '#00cc96',
-    'Negative': '#EF553B',
-    'Suggestion': '#636EFA'
-}
 
 def convert_relative_time_to_date(relative_time):
     try:
@@ -27,26 +25,61 @@ def convert_relative_time_to_date(relative_time):
     except ValueError:
         return pd.to_datetime('today')  # Default to today's date for non-numeric values
 
-# Other functions remain the same...
+def perform_sentiment_analysis(df):
+    # Set Seaborn style
+    sns.set(style="whitegrid")
+
+    # Handle missing values in 'review_text' column
+    df['review_text'].fillna('', inplace=True)
+
+    # Perform sentiment analysis using the NLTK Sentiment Intensity Analyzer
+    sia = SentimentIntensityAnalyzer()
+    df['compound_sentiment'] = df['review_text'].apply(lambda x: sia.polarity_scores(str(x))['compound'])
+
+    # Round up ratings to whole numbers
+    df['rating'] = np.ceil(df['rating']).astype(int)
+
+    # Add the 'review_length' column
+    df['review_length'] = df['review_text'].apply(len)
+
+    # Positive and negative keywords
+    positive_keywords = ['good', 'excellent', 'positive', 'satisfactory', 'commendable']
+    negative_keywords = ['bad', 'poor', 'worst', 'negative', 'unsatisfactory', 'disappointing']
+    suggestion_keywords = ['suggestion', 'improvement', 'recommendation']
+
+    # Categorize Feedback
+    df['feedback_category'] = 'review_text'
+    df.loc[df['review_text'].str.contains('|'.join(positive_keywords), case=False), 'feedback_category'] = 'Positive'
+    df.loc[df['review_text'].str.contains('|'.join(negative_keywords), case=False), 'feedback_category'] = 'Negative'
+    df.loc[df['review_text'].str.contains('|'.join(suggestion_keywords), case=False), 'feedback_category'] = 'Suggestion'
+
+    return df
 
 def render_charts(df):
     # --- Chart 1: Sentiment Analysis Based on Ratings ---
     st.subheader("1. Sentiment Analysis Based On Ratings")
-    fig1 = px.scatter(df, x='rating', y='compound_sentiment', color='rating', 
-                      color_continuous_scale='viridis', labels={'rating': 'Rating', 'compound_sentiment': 'Compound Sentiment'},
-                      title='Sentiment Analysis Based On Ratings')
-    st.plotly_chart(fig1)
+    fig1, ax1 = plt.subplots(figsize=(12, 8))
+    sns.scatterplot(x='rating', y='compound_sentiment', data=df, hue='rating', palette='viridis', ax=ax1)
+    ax1.set_xticks(list(sorted(df['rating'].unique())))
+    ax1.set_xlabel('Rating', fontsize='large')
+    ax1.set_ylabel('Compound Sentiment', fontsize='large')
+    ax1.set_title('Sentiment Analysis Based On Ratings', fontsize='x-large')
+    st.pyplot(fig1)
 
     st.markdown("<br><br>", unsafe_allow_html=True)
 
     # --- Chart 2: Average Sentiment Per Business ---
     st.subheader("2. Average Sentiment Per Product OR Service")
-    fig2 = px.bar(df, x='business_column', y='compound_sentiment', 
-                  labels={'business_column': 'Business', 'compound_sentiment': 'Average Compound Sentiment'},
-                  title='Average Sentiment Per Product OR Service')
-    st.plotly_chart(fig2)
+    fig2, ax2 = plt.subplots(figsize=(12, 8))
+    sns.barplot(x='business_column', y='compound_sentiment', data=df, ax=ax2, palette='viridis')
+    ax2.set_xlabel('Business', fontsize='large')
+    ax2.set_ylabel('Average Compound Sentiment', fontsize='large')
+    ax2.set_title('Average Sentiment Per Product OR Service', fontsize='x-large')
+    st.pyplot(fig2)
 
- # --- Chart 3: Review Length Analysis ---
+    st.markdown("<br><br>", unsafe_allow_html=True)
+
+    # --- Chart 3: Review Length Analysis ---
     st.subheader("3. Review Length Analysis")
     fig3, ax3 = plt.subplots(figsize=(12, 8))
     ax3.hist(df['review_length'], bins=20, color='darkblue')
@@ -100,17 +133,28 @@ def render_charts(df):
 
     st.markdown("<br><br>", unsafe_allow_html=True)
 
+# --- Positive and Negative Feedback Categories ---
+    st.subheader("6. Highly Effective Positive and Negative Feedback")
+    
+    positive_feedback = df[df['feedback_category'] == 'Positive']['review_text']
+    negative_feedback = df[df['feedback_category'] == 'Negative']['review_text']
+    
+    st.write("Positive Feedback:")
+    for feedback in positive_feedback:
+        st.write(feedback)
+    
+    st.write("Negative Feedback:")
+    for feedback in negative_feedback:
+        st.write(feedback)
+
+
 def main():
     st.title('Sentiment Analysis Dashboard')
-
-    # Creating a sidebar for file upload and additional controls
-    st.sidebar.title("Options")
-    uploaded_file = st.sidebar.file_uploader("Upload CSV file", type="csv")
+    uploaded_file = st.file_uploader("Upload CSV file", type="csv")
 
     if uploaded_file is not None:
         df = pd.read_csv(uploaded_file)
         df = perform_sentiment_analysis(df)
-
         render_charts(df)
 
 if __name__ == "__main__":
