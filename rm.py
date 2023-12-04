@@ -98,8 +98,11 @@ def render_charts(df):
     ax.set_title('Average Sentiment On Business Aspects')
     st.pyplot(fig)
 
-   # Define custom gradient colors using a colormap
-colors = ['lightgreen', 'lightred']  # Define your colors
+  # Display the chart within Streamlit
+st.subheader("Sentiment Analysis For Feedback Categories")
+
+# Define custom gradient colors using a colormap
+colors = ['lightgreen', 'lightcoral']  # Define your colors for positive and negative feedback
 cmap = ListedColormap(sns.color_palette(colors).as_hex())
 
 # Create the plot
