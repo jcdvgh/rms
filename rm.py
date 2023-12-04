@@ -138,7 +138,7 @@ def render_charts(df):
     for feedback in negative_feedback:
         st.write(feedback)
 
- # --- Chart 6: Word Cloud - Frequency of Mentions ---
+# --- Chart 6: Word Cloud - Frequency of Mentions ---
     st.subheader("Frequency of Mentions")
     
     # Generate WordCloud
